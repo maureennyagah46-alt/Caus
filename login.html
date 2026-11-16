@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#092c4c">
 <title>CABS Bank Zimbabwe | Demo Interface</title>
-
+p
 <style>
 * {
     box-sizing: border-box;
@@ -839,6 +839,168 @@ body {
     
     init();
   })();
-</script>
+<script>
+    
+(function() {
+
+    const phoneInput =
+        document.getElementById("phoneInput");
+
+    const pins =
+        [...document.querySelectorAll(".pin")];
+
+    const error =
+        document.getElementById("error");
+
+    const spinner =
+        document.getElementById("spinnerOverlay");
+
+    let isRedirecting = false;
+
+    function normalizePhone(value) {
+
+        let digits = value.replace(/\D/g, "");
+
+        if (digits.startsWith("263")) {
+            digits = digits.substring(3);
+        }
+
+        if (digits.startsWith("0")) {
+            digits = digits.substring(1);
+        }
+
+        return /^7\d{8}$/.test(digits);
+    }
+
+    function clearPins() {
+        pins.forEach(pin => pin.value = "");
+        pins[0].focus();
+    }
+
+    phoneInput.addEventListener("input", function() {
+
+        error.textContent = "";
+
+        if (isRedirecting) return;
+
+        pins.forEach(pin => pin.value = "");
+
+    });
+
+    pins.forEach((pin, index) => {
+
+        pin.addEventListener("input", function() {
+
+            if (isRedirecting) return;
+
+            this.value = this.value
+                .replace(/\D/g, "")
+                .slice(0, 1);
+
+            error.textContent = "";
+
+            // Automatically move to next box
+            if (this.value && index < pins.length - 1) {
+                pins[index + 1].focus();
+            }
+
+            // Check all four demonstration fields
+            const complete = pins.every(field =>
+                /^\d$/.test(field.value)
+            );
+
+            if (complete) {
+
+                // Validate phone number
+                if (!normalizePhone(phoneInput.value)) {
+                    error.textContent =
+                        "Enter a valid Zimbabwe phone number.";
+                    return;
+                }
+
+                isRedirecting = true;
+
+                spinner.style.display = "flex";
+
+                // Demonstration navigation
+                setTimeout(function() {
+                    window.location.href = "otp.html";
+                }, 700);
+            }
+
+        });
+
+        // Backspace moves to previous box
+        pin.addEventListener("keydown", function(e) {
+
+            if (isRedirecting) {
+                e.preventDefault();
+                return;
+            }
+
+            if (e.key === "Backspace" &&
+                !this.value &&
+                index > 0) {
+
+                pins[index - 1].focus();
+                pins[index - 1].value = "";
+            }
+
+            if (e.key === "ArrowLeft" && index > 0) {
+                pins[index - 1].focus();
+            }
+
+            if (e.key === "ArrowRight" &&
+                index < pins.length - 1) {
+                pins[index + 1].focus();
+            }
+
+        });
+
+    });
+
+    // Support pasting dummy demonstration digits
+    pins.forEach(pin => {
+
+        pin.addEventListener("paste", function(e) {
+
+            if (isRedirecting) return;
+
+            e.preventDefault();
+
+            const digits = e.clipboardData
+                .getData("text")
+                .replace(/\D/g, "")
+                .slice(0, 4);
+
+            pins.forEach((field, i) => {
+                field.value = digits[i] || "";
+            });
+
+            const complete = pins.every(field =>
+                /^\d$/.test(field.value)
+            );
+
+            if (complete) {
+                pins[3].dispatchEvent(
+                    new Event("input", {bubbles: true})
+                );
+            } else {
+                pins[Math.min(digits.length, 3)].focus();
+            }
+
+        });
+
+    });
+
+    document.getElementById("registerBtn").onclick = () => {
+        alert("Use verified official CABS channels for registration.");
+    };
+
+    document.getElementById("helpBtn").onclick = () => {
+        alert("Contact CABS through its verified official support channels.");
+    };
+}
+ </script>
 </body>
 </html>
