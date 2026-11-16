@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CABS Bank Zimbabwe - Demo Verification</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #003b5c;
+    --navy-dark: #002b43;
+    --green: #76ad3b;
+    --background: #0f1117;
+    --muted: #a0a8c0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    background: var(--background);
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 16px 20px;
+    position: relative;
+}
+
+.back-btn {
+    font-size: 28px;
+    color: white;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    text-align: center;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.phone {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 48px;
+}
+
+.otp-group {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.otp-box {
+    width: 48px;
+    height: 54px;
+    border: none;
+    border-bottom: 3px solid #4a5568;
+    background: transparent;
+    color: white;
+    font-size: 26px;
+    text-align: center;
+    outline: none;
+    caret-color: white;
+}
+
+.otp-box:focus,
+.otp-box.filled {
+    border-bottom-color: var(--green);
+}
+
+.resend {
+    font-size: 15px;
+    color: #91c5f2;
+    margin: 24px 0;
+    cursor: pointer;
+}
+
+.primary-btn {
+    width: 100%;
+    max-width: 360px;
+    padding: 18px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    background: var(--navy-dark);
+}
+
+.primary-btn:disabled {
+    background: #2a4365;
+    color: #8a9abf;
+    cursor: not-allowed;
+}
+
+.error-msg {
+    color: #ef4444;
+    font-size: 14px;
+    margin: 12px 0 24px;
+    min-height: 20px;
+    display: none;
+}
+
+.logo {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 48px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.logo span {
+    color: var(--green);
+}
+
+.bank-caption {
+    font-size: 11px;
+    color: #a0a8c0;
+    letter-spacing: 2px;
+    margin-top: -40px;
+    margin-bottom: 45px;
+}
+
+.greeting {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.demo-code {
+    padding: 13px 18px;
+    background: rgba(118,173,59,.12);
+    border: 1px solid rgba(118,173,59,.35);
+    border-radius: 9px;
+    color: #b5df89;
+    margin: 12px 0 24px;
+    font-size: 14px;
+}
+
+#spinnerOverlay,
+#resultOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,17,23,.98);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #f0f0f0;
+    border-top: 6px solid var(--green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 30px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.result-icon {
+    font-size: 75px;
+    margin-bottom: 24px;
+}
+
+.result-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.result-message {
+    font-size: 16px;
+    color: white;
+    line-height: 1.6;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.review-section {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 420px;
+    padding: 18px;
+    background: rgba(255,255,255,.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+}
+
+.review-section h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.review-section p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+#reviewText {
+    width: 100%;
+    height: 100px;
+    padding: 14px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    resize: none;
+    margin-bottom: 14px;
+}
+
+#reviewText:focus {
+    outline: none;
+    border-color: var(--green);
+}
+
+#sendReviewBtn {
+    width: 100%;
+    padding: 15px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.notice {
+    width: 100%;
+    max-width: 420px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #a0a8c0;
+    padding: 15px;
+    text-align: center;
+}
+
+@media(max-width:480px) {
+    .otp-group { gap: 10px; }
+    .otp-box { width: 43px; }
+    .result-title { font-size: 24px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- OTP PAGE -->
+<main id="otpPage">
+
+    <div class="header">
+        <a class="back-btn" href="#" aria-label="Back">←</a>
+    </div>
+
+    <div class="container">
+
+        <div class="logo">CABS<span>.</span></div>
+        <div class="bank-caption">ZIMBABWE DEMO</div>
+
+        <div class="title">Demo Verification</div>
+
+        <div class="subtitle">
+            Enter the five-digit demonstration code
+            to continue through this sample application.
+        </div>
+
+        <div class="phone" id="maskedPhone">
+            +263 77 440 092
+        </div>
+
+        <div class="demo-code">
+            Demonstration code: <strong>12345</strong>
+        </div>
+
+        <div class="otp-group" role="group" aria-label="Demo code">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric" aria-label="Digit 1">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric" aria-label="Digit 2">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric" aria-label="Digit 3">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric" aria-label="Digit 4">
+            <input type="tel" class="otp-box" maxlength="1" inputmode="numeric" aria-label="Digit 5">
+        </div>
+
+        <div class="error-msg" id="otpError">
+            Incorrect demonstration code.
+        </div>
+
+        <div class="resend" id="resend">
+            Reset demo code
+        </div>
+
+        <button class="primary-btn" id="submitBtn" disabled>
+            Verify Demo Code
+        </button>
+
+        <div class="notice">
+            Independent demonstration only. Not an official CABS Bank
+            service. Never enter real banking passwords, PINs or OTPs.
+        </div>
+
+    </div>
+</main>
+
+<!-- DEMO CONFIRMATION PAGE -->
+<section id="confirmationPage" style="display:none;">
+
+    <div class="container">
+
+        <div class="logo">CABS<span>.</span></div>
+        <div class="bank-caption">ZIMBABWE DEMO</div>
+
+        <div class="greeting">Demo Verification Complete</div>
+
+        <div class="subtitle">
+            The sample verification was successful.
+            No real banking credentials were requested or collected.
+        </div>
+
+        <div class="demo-code">
+            This is a demonstration, not a real bank login.
+        </div>
+
+        <button class="primary-btn" id="finishBtn">
+            Finish Demonstration
+        </button>
+
+    </div>
+</section>
+
+<!-- LOADING OVERLAY -->
+<div id="spinnerOverlay">
+    <div class="spinner"></div>
+    <div id="spinnerText">Checking demonstration code...</div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div id="resultOverlay">
+
+    <div class="result-icon">🎉</div>
+
+    <div class="result-title">Demonstration Completed!</div>
+
+    <div class="result-message">
+        Thank you for trying this CABS Bank Zimbabwe-themed
+        demonstration. No loan application was submitted,
+        no funds were approved, and no payment is required.
+    </div>
+
+    <div class="review-section">
+
+        <h3>Share Your Experience</h3>
+
+        <p>
+            Your optional feedback can help improve this demonstration.
+        </p>
+
+        <textarea id="reviewText"
+            placeholder="Write your feedback here..."></textarea>
+
+        <button id="sendReviewBtn">
+            Copy Review
+        </button>
+
+        <p id="reviewMessage" style="margin-top:12px;"></p>
+
+    </div>
+
+    <button class="primary-btn" id="closeResult"
+        style="margin-top:20px;">
+        Close
+    </button>
+
+</div>
+
+<script>
+const otpPage = document.getElementById("otpPage");
+const confirmationPage = document.getElementById("confirmationPage");
+
+const otpBoxes = [
+    ...document.querySelectorAll(".otp-box")
+];
+
+const submitBtn = document.getElementById("submitBtn");
+const otpError = document.getElementById("otpError");
+
+const spinnerOverlay = document.getElementById("spinnerOverlay");
+const spinnerText = document.getElementById("spinnerText");
+
+const resultOverlay = document.getElementById("resultOverlay");
+
+let demoCode = "";
+
+function updateCode() {
+    demoCode = otpBoxes.map(box => box.value).join("");
+
+    submitBtn.disabled = demoCode.length !== 5;
+
+    otpBoxes.forEach(box => {
+        box.classList.toggle("filled", box.value !== "");
+    });
+}
+
+// OTP input handling
+otpBoxes.forEach((box, index) => {
+
+    box.addEventListener("input", () => {
+
+        box.value = box.value.replace(/\D/g, "").slice(0, 1);
+
+        if (box.value && index < otpBoxes.length - 1) {
+            otpBoxes[index + 1].focus();
+        }
+
+        updateCode();
+    });
+
+    box.addEventListener("keydown", event => {
+
+        if (event.key === "Backspace" && !box.value && index > 0) {
+            otpBoxes[index - 1].focus();
+        }
+
+        if (event.key === "ArrowLeft" && index > 0) {
+            otpBoxes[index - 1].focus();
+        }
+
+        if (event.key === "ArrowRight" && index < otpBoxes.length - 1) {
+            otpBoxes[index + 1].focus();
+        }
+    });
+
+    box.addEventListener("paste", event => {
+
+        event.preventDefault();
+
+        const digits = event.clipboardData
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, 5);
+
+        digits.split("").forEach((digit, i) => {
+            otpBoxes[i].value = digit;
+        });
+
+        otpBoxes[Math.min(digits.length, 4)].focus();
+
+        updateCode();
+    });
+});
+
+// Demo verification
+submitBtn.addEventListener("click", () => {
+
+    updateCode();
+
+    if (demoCode.length !== 5) return;
+
+    otpError.style.display = "none";
+
+    spinnerText.textContent = "Checking demonstration code...";
+    spinnerOverlay.style.display = "flex";
+
+    setTimeout(() => {
+
+        spinnerOverlay.style.display = "none";
+
+        if (demoCode === "12345") {
+
+            otpPage.style.display = "none";
+            confirmationPage.style.display = "block";
+
+        } else {
+
+            otpError.style.display = "block";
+
+            otpBoxes.forEach(box => {
+                box.value = "";
+                box.classList.remove("filled");
+            });
+
+            updateCode();
+            otpBoxes[0].focus();
+        }
+
+    }, 1200);
+});
+
+// Reset demo code
+document.getElementById("resend").addEventListener("click", () => {
+
+    otpBoxes.forEach(box => {
+        box.value = "";
+        box.classList.remove("filled");
+    });
+
+    otpError.style.display = "none";
+
+    updateCode();
+    otpBoxes[0].focus();
+});
+
+// Finish demonstration
+document.getElementById("finishBtn").addEventListener("click", () => {
+    resultOverlay.style.display = "flex";
+});
+
+// Copy review locally
+document.getElementById("sendReviewBtn").addEventListener("click", async () => {
+
+    const review = document.getElementById("reviewText").value.trim();
+    const reviewMessage = document.getElementById("reviewMessage");
+
+    if (!review) {
+        reviewMessage.textContent = "Please write your feedback first.";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(review);
+        reviewMessage.textContent = "Your feedback has been copied.";
+    } catch {
+        reviewMessage.textContent = "Please select and copy your feedback manually.";
+    }
+});
+
+document.getElementById("closeResult").addEventListener("click", () => {
+    resultOverlay.style.display = "none";
+});
+
+updateCode();
+
+otpBoxes[0].focus();
+</script>
+
+</body>
+</html>
