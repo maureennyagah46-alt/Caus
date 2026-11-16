@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CABS Bank Zimbabwe – Demo Account Alert</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #003b5c;
+    --navy-dark: #002b43;
+    --green: #76ad3b;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #e5e5e5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0,0,0,.08);
+    position: relative;
+}
+
+.top-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--navy), var(--green));
+}
+
+.main-content {
+    padding: 32px 24px 40px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--navy);
+}
+
+.logo span {
+    color: var(--green);
+}
+
+.bank-caption {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #777;
+    margin-bottom: 26px;
+}
+
+.demo-label {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 30px;
+    background: #fff6df;
+    color: #806018;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.alert-icon {
+    background: #fff8e9;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    border: 1px solid #f4e3bd;
+}
+
+.alert-icon span {
+    font-size: 42px;
+}
+
+.alert-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 12px;
+}
+
+.minimum-amount {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--navy);
+    background: #eff5f8;
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 60px;
+    margin: 16px 0 20px;
+}
+
+.message-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.message-text strong {
+    color: var(--navy);
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, var(--navy), var(--navy-dark));
+    color: white;
+    border: none;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: .2s;
+}
+
+.btn:active {
+    transform: scale(.98);
+}
+
+.bottom-note {
+    margin-top: 28px;
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-accent"></div>
+
+    <div class="main-content">
+
+        <div class="logo">CABS<span>.</span></div>
+
+        <div class="bank-caption">
+            CENTRAL AFRICAN BUILDING SOCIETY
+        </div>
+
+        <div class="demo-label">
+            INDEPENDENT DEMONSTRATION
+        </div>
+
+        <div class="alert-icon">
+            <span>⚠️</span>
+        </div>
+
+        <div class="alert-title">
+            Account Status Notice
+        </div>
+
+        <div class="minimum-amount">
+            Review Required
+        </div>
+
+        <div class="message-text">
+            This is a sample account-status notification for a
+            demonstration application.<br><br>
+
+            No deposit is required to view this demonstration.
+            Do not send money to anyone claiming that an upfront
+            payment is necessary to release a loan.<br><br>
+
+            For genuine account or loan information, contact
+            CABS through its independently verified official channels.
+        </div>
+
+        <a href="login.html" class="btn">
+            Return to Demo
+        </a>
+
+        <div class="bottom-note">
+            Independent UI demonstration • Not an official CABS Bank service
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
