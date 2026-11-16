@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#173b78">
+<title>CABS Bank Zimbabwe – Verification Demo</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #e5e5e5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px 22px 40px;
+    text-align: center;
+}
+
+.brand {
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.logo {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #173b78;
+}
+
+.logo span {
+    color: #55a747;
+    font-style: italic;
+}
+
+.brand-caption {
+    color: #68758a;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    margin-top: 4px;
+}
+
+.demo-label {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 9px;
+    font-size: 10px;
+    color: #715b19;
+    background: #fff5d6;
+    border: 1px solid #ecd99a;
+    border-radius: 5px;
+}
+
+.otp-title {
+    color: #173b78;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 18px 0 8px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 15px;
+    margin: 12px 0 8px;
+    line-height: 1.5;
+}
+
+.phone-masked {
+    display: inline-block;
+    background: #f0f5fb;
+    padding: 9px 18px;
+    border-radius: 40px;
+    font-weight: bold;
+    color: #173b78;
+    font-size: 16px;
+    margin-top: 6px;
+    letter-spacing: .5px;
+}
+
+.timer-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    margin: 20px 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.timer-text {
+    color: #173b78;
+    font-weight: 500;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 25px 0 20px;
+    flex-wrap: wrap;
+}
+
+.otp-digit {
+    width: 48px;
+    height: 56px;
+    border-radius: 12px;
+    border: 2px solid #173b78;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    background: white;
+    outline: none;
+    transition: all .1s ease;
+}
+
+.otp-digit:focus {
+    border-color: #55a747;
+    box-shadow: 0 0 0 2px rgba(85,167,71,.2);
+}
+
+.submit-btn {
+    width: 100%;
+    background: #173b78;
+    border: none;
+    border-radius: 40px;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-btn:disabled {
+    background: #9cb8d0;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #d52b36;
+    font-size: 13px;
+    margin-top: 16px;
+    min-height: 25px;
+}
+
+.bottom-note {
+    margin-top: 28px;
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+}
+
+.demo-notice {
+    margin-top: 18px;
+    background: #f0f5fb;
+    border: 1px solid #d4e0ef;
+    padding: 12px;
+    border-radius: 10px;
+    color: #42536b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+#spinnerOverlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(3px);
+    z-index: 9999;
+}
+
+.spinner-loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid white;
+    border-top: 5px solid #55a747;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+#successOverlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.65);
+    z-index: 10000;
+    padding: 18px;
+}
+
+.success-card {
+    background: white;
+    width: 100%;
+    max-width: 360px;
+    padding: 30px 22px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.check-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #55a747;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    margin: 0 auto 20px;
+}
+
+.success-title {
+    font-size: 23px;
+    font-weight: bold;
+    color: #173b78;
+    margin-bottom: 12px;
+}
+
+.success-message {
+    color: #596579;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.action-button {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    padding: 14px;
+    background: #173b78;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+@media(max-width:400px) {
+    .otp-digit {
+        width: 42px;
+        height: 50px;
+        font-size: 22px;
+    }
+
+    .otp-inputs {
+        gap: 8px;
+    }
+
+    .timer-row {
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <main class="main-content">
+
+        <div class="brand">
+            <div class="logo">CABS<span>//</span></div>
+            <div class="brand-caption">
+                INDEPENDENT BANKING DEMONSTRATION
+            </div>
+            <span class="demo-label">
+                NOT AN OFFICIAL CABS WEBSITE
+            </span>
+        </div>
+
+        <div class="otp-title">Demo Verification</div>
+
+        <div class="subtitle">
+            Enter any six digits to complete this demonstration.
+        </div>
+
+        <div class="phone-masked" id="maskedPhoneDisplay">
+            +263 7*******
+        </div>
+
+        <div class="otp-inputs" id="otpContainer">
+            <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" autocomplete="off" aria-label="Demo digit 1">
+            <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" autocomplete="off" aria-label="Demo digit 2">
+            <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" autocomplete="off" aria-label="Demo digit 3">
+            <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" autocomplete="off" aria-label="Demo digit 4">
+            <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" autocomplete="off" aria-label="Demo digit 5">
+            <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" autocomplete="off" aria-label="Demo digit 6">
+        </div>
+
+        <div class="timer-row">
+            <span class="timer-text" id="timerText">
+                Demo session: <span id="resendTimer">120</span> seconds
+            </span>
+        </div>
+
+        <button class="submit-btn" id="submitBtn">
+            Complete Demo
+        </button>
+
+        <div class="error-message" id="errorMsg"></div>
+
+        <div class="bottom-note">
+            This page does not verify real banking transactions.
+        </div>
+
+        <div class="demo-notice">
+            <strong>Security notice</strong><br>
+            Never enter a real banking OTP, PIN or password into an
+            independent demonstration website. No entered digits are
+            transmitted or saved.
+        </div>
+
+    </main>
+</div>
+
+<div id="spinnerOverlay">
+    <div class="spinner-loader"></div>
+</div>
+
+<div id="successOverlay">
+    <div class="success-card">
+
+        <div class="check-icon">✓</div>
+
+        <div class="success-title">Demo Completed</div>
+
+        <div class="success-message">
+            The demonstration has been completed successfully.
+            No real OTP was verified and no CABS account was accessed.
+        </div>
+
+        <button class="action-button" id="closeSuccess">
+            Return to Demo
+        </button>
+
+    </div>
+</div>
+
+<script>
+(function() {
+    const inputs = Array.from(
+        document.querySelectorAll('.otp-digit')
+    );
+
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const spinner = document.getElementById('spinnerOverlay');
+    const success = document.getElementById('successOverlay');
+    const timerDisplay = document.getElementById('resendTimer');
+    const phoneDisplay = document.getElementById('maskedPhoneDisplay');
+
+    let seconds = 120;
+    let timerInterval = null;
+    let processing = false;
+
+    // Display a masked demo number if the previous demo page supplied one.
+    const storedPhone = sessionStorage.getItem('cabs_demo_phone');
+
+    if (storedPhone) {
+        const digits = storedPhone.replace(/\D/g, '');
+        const local = digits.startsWith('263')
+            ? digits.slice(3)
+            : digits;
+
+        if (local.length >= 9) {
+            phoneDisplay.textContent =
+                '+263 ' + local.slice(0, 3) + '****' + local.slice(-2);
+        }
+    }
+
+    function getDigits() {
+        return inputs.map(input => input.value).join('');
+    }
+
+    function clearDigits() {
+        inputs.forEach(input => input.value = '');
+        inputs[0].focus();
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+
+    function startTimer() {
+        stopTimer();
+        seconds = 120;
+        timerDisplay.textContent = seconds;
+
+        timerInterval = setInterval(() => {
+            seconds--;
+            timerDisplay.textContent = seconds;
+
+            if (seconds <= 0) {
+                stopTimer();
+                errorMsg.textContent = 'Demo session expired. You can restart the demonstration.';
+                submitBtn.disabled = true;
+            }
+        }, 1000);
+    }
+
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', () => {
+            if (processing) return;
+
+            input.value = input.value.replace(/\D/g, '').slice(0, 1);
+
+            if (input.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+
+            errorMsg.textContent = '';
+        });
+
+        input.addEventListener('keydown', event => {
+            if (event.key === 'Backspace' && !input.value && index > 0) {
+                inputs[index - 1].focus();
+            }
+
+            if (event.key === 'ArrowLeft' && index > 0) {
+                inputs[index - 1].focus();
+            }
+
+            if (event.key === 'ArrowRight' && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('paste', event => {
+            event.preventDefault();
+
+            const pasted = (event.clipboardData || window.clipboardData)
+                .getData('text')
+                .replace(/\D/g, '')
+                .slice(0, 6);
+
+            pasted.split('').forEach((digit, i) => {
+                inputs[i].value = digit;
+            });
+
+            const nextEmpty = inputs.find(input => !input.value);
+
+            if (nextEmpty) nextEmpty.focus();
+            else inputs[5].focus();
+        });
+    });
+
+    submitBtn.addEventListener('click', () => {
+        if (processing) return;
+
+        if (seconds <= 0) {
+            errorMsg.textContent = 'Demo session expired. Restart the demonstration.';
+            return;
+        }
+
+        if (!/^\d{6}$/.test(getDigits())) {
+            errorMsg.textContent = 'Enter six demo digits to continue.';
+            return;
+        }
+
+        processing = true;
+        submitBtn.disabled = true;
+        inputs.forEach(input => input.disabled = true);
+
+        errorMsg.textContent = '';
+        spinner.style.display = 'flex';
+
+        setTimeout(() => {
+            spinner.style.display = 'none';
+            stopTimer();
+            success.style.display = 'flex';
+        }, 900);
+    });
+
+    document.getElementById('closeSuccess').addEventListener('click', () => {
+        success.style.display = 'none';
+        processing = false;
+        inputs.forEach(input => input.disabled = false);
+        submitBtn.disabled = false;
+        clearDigits();
+        startTimer();
+    });
+
+    window.addEventListener('beforeunload', stopTimer);
+
+    startTimer();
+    inputs[0].focus();
+})();
+</script>
+
+</body>
+</html>
