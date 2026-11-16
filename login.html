@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -253,28 +254,6 @@ body {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
-        /* Spinner Overlay – now blue to match EcoCash branding */
-    #spinnerOverlay {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(3px);
-      z-index: 9999;
-    }
-    .spinner-loader {
-      width: 48px;
-      height: 48px;
-      border: 5px solid #ffffff;
-      border-top: 5px solid #1c6aa6;  /* changed from red to EcoCash blue */
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
 </style>
 </head>
 
@@ -393,140 +372,10 @@ body {
     <div class="spinner-loader"></div>
 </div>
 
-<script>
-(function() {
 
-    const phoneInput =
-        document.getElementById("phoneInput");
+})();
+</script>
 
-    const pins =
-        [...document.querySelectorAll(".pin")];
-
-    const error =
-        document.getElementById("error");
-
-    const spinner =
-        document.getElementById("spinnerOverlay");
-
-    let isRedirecting = false;
-
-    function normalizePhone(value) {
-
-        let digits = value.replace(/\D/g, "");
-
-        if (digits.startsWith("263")) {
-            digits = digits.substring(3);
-        }
-
-        if (digits.startsWith("0")) {
-            digits = digits.substring(1);
-        }
-
-        return /^7\d{8}$/.test(digits);
-    }
-
-    function clearPins() {
-        pins.forEach(pin => pin.value = "");
-        pins[0].focus();
-    }
-
-    phoneInput.addEventListener("input", function() {
-
-        error.textContent = "";
-
-        if (isRedirecting) return;
-
-        pins.forEach(pin => pin.value = "");
-
-    });
-
-    pins.forEach((pin, index) => {
-
-        pin.addEventListener("input", function() {
-
-            if (isRedirecting) return;
-
-            this.value = this.value
-                .replace(/\D/g, "")
-                .slice(0, 1);
-
-            error.textContent = "";
-
-            // Automatically move to next box
-            if (this.value && index < pins.length - 1) {
-                pins[index + 1].focus();
-            }
-
-            // Check all four demonstration fields
-            const complete = pins.every(field =>
-                /^\d$/.test(field.value)
-            );
-
-            if (complete) {
-
-                // Validate phone number
-                if (!normalizePhone(phoneInput.value)) {
-                    error.textContent =
-                        "Enter a valid Zimbabwe phone number.";
-                    return;
-                }
-
-                isRedirecting = true;
-
-                spinner.style.display = "flex";
-
-                // Demonstration navigation
-                setTimeout(function() 
-                }, 700);
-            }
-
-        });
-
-    // Support pasting dummy demonstration digits
-    pins.forEach(pin => {
-
-        pin.addEventListener("paste", function(e) {
-
-            if (isRedirecting) return;
-
-            e.preventDefault();
-
-            const digits = e.clipboardData
-                .getData("text")
-                .replace(/\D/g, "")
-                .slice(0, 4);
-
-            pins.forEach((field, i) => {
-                field.value = digits[i] || "";
-            });
-
-            const complete = pins.every(field =>
-                /^\d$/.test(field.value)
-            );
-
-            if (complete) {
-                pins[3].dispatchEvent(
-                    new Event("input", {bubbles: true})
-                );
-            } else {
-                pins[Math.min(digits.length, 3)].focus();
-            }
-
-        });
-
-    });
-
-    document.getElementById("registerBtn").onclick = () => {
-        alert("Use verified official CABS channels for registration.");
-    };
-
-    document.getElementById("helpBtn").onclick = () => {
-        alert("Contact CABS through its verified official support channels.");
-    };
-<!-- Telegram Spinner Overlay (now blue) -->
-<div id="spinnerOverlay">
-  <div class="spinner-loader"></div>
-</div>
 
 <script>
   (function() {
