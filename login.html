@@ -4,19 +4,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#173b78">
-<title>CABS Bank Zimbabwe – Login Demo</title>
+<title>CABS Bank Zimbabwe - Demo Login</title>
 
 <style>
-* {
-    box-sizing: border-box;
+* { box-sizing: border-box; }
+
+:root {
+    --navy: #003b5c;
+    --navy-dark: #002b43;
+    --green: #76ad3b;
 }
 
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: #e5e5e5;
-    color: #333;
 }
 
 .container {
@@ -27,81 +29,59 @@ body {
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
 }
 
 .main-content {
     position: relative;
     z-index: 2;
     padding-bottom: 10px;
-    flex: 1;
-}
-
-.brand {
-    text-align: center;
-    margin-top: 38px;
 }
 
 .logo {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-weight: 800;
-    letter-spacing: -2px;
-    color: #173b78;
-}
-
-.logo-mark {
-    color: #55a747;
-    font-size: 36px;
-    margin-left: 4px;
-    font-style: italic;
-}
-
-.brand-caption {
-    color: #65748a;
-    font-size: 10px;
-    letter-spacing: 1.4px;
+    text-align: center;
+    font-size: 38px;
     font-weight: bold;
-    margin-top: 3px;
+    margin-top: 40px;
+    color: var(--navy);
+    letter-spacing: 1px;
+}
+
+.logo span { color: var(--green); }
+
+.bank-caption {
+    text-align: center;
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
 }
 
 .demo-label {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 5px 9px;
-    font-size: 10px;
-    color: #715b19;
-    background: #fff5d6;
-    border: 1px solid #ecd99a;
-    border-radius: 5px;
+    text-align: center;
+    color: #806018;
+    background: #fff6df;
+    border-radius: 20px;
+    padding: 8px;
+    margin: 18px 22px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
 .login-title {
     text-align: center;
     color: #666;
     font-size: 26px;
-    margin-top: 25px;
-}
-
-.description {
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-    margin: 10px 22px 24px;
-    line-height: 1.5;
+    margin-top: 18px;
 }
 
 .phone-box {
     margin: 22px;
-    border: 2px solid #173b78;
+    border: 2px solid var(--navy);
     border-radius: 10px;
     display: flex;
     align-items: center;
-    padding: 12px;
-    background: #f7f9fc;
+    padding: 10px 12px;
+    background: #f2f2f2;
 }
 
 .flag {
@@ -110,10 +90,9 @@ body {
 }
 
 .code {
-    color: #173b78;
+    color: #666;
     margin-right: 10px;
     font-size: 16px;
-    font-weight: bold;
 }
 
 .phone-input {
@@ -126,41 +105,196 @@ body {
 }
 
 .phone-error {
-    color: #d52b36;
+    color: #c0392b;
     font-size: 13px;
-    margin: -12px 22px 10px;
-    min-height: 18px;
+    margin: -10px 22px 10px;
+    min-height: 20px;
 }
 
 .pin-title {
     text-align: center;
     color: #666;
-    margin-top: 18px;
-    font-weight: bold;
+    margin-top: 5px;
 }
 
-.demo-pin-notice {
-    margin: 12px 22px;
-    padding: 14px;
+.pin-box {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.pin {
+    width: 44px;
+    height: 44px;
     border-radius: 10px;
-    background: #f0f5fb;
-    border: 1px solid #d4e0ef;
-    color: #42536b;
-    font-size: 13px;
-    line-height: 1.5;
+    border: 2px solid var(--navy);
     text-align: center;
+    font-size: 20px;
+    outline: none;
+}
+
+.pin:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px rgba(118,173,59,.2);
+}
+
+.demo-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    margin: 14px 22px;
+}
+
+.verify-btn {
+    display: block;
+    width: calc(100% - 44px);
+    margin: 22px;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: var(--navy);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.verify-btn:disabled {
+    background: #9baab3;
+    cursor: not-allowed;
+}
+
+.otp-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    background: white;
+    z-index: 10;
+    padding: 20px;
+}
+
+.otp-screen.active { display: block; }
+
+.otp-header {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.otp-header h2 {
+    color: var(--navy);
+    font-size: 24px;
+}
+
+.otp-message {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 30px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.otp-phone-display {
+    background: #f2f2f2;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--navy);
+    margin-bottom: 30px;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.otp-input {
+    width: 42px;
+    height: 50px;
+    border: 2px solid var(--navy);
+    border-radius: 9px;
+    text-align: center;
+    font-size: 22px;
+    outline: none;
+}
+
+.otp-input:focus { border-color: var(--green); }
+
+.error-message {
+    color: #c0392b;
+    text-align: center;
+    font-size: 14px;
+    margin: 10px 0;
+    min-height: 20px;
+}
+
+.success-message {
+    color: #27813a;
+    text-align: center;
+    font-size: 14px;
+    margin: 10px 0;
+    min-height: 20px;
+}
+
+.back-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.bottom {
+    position: relative;
+    margin-top: 40px;
+    background: var(--navy);
+    color: white;
+    padding-top: 110px;
+    padding-bottom: 28px;
+    text-align: center;
+}
+
+.bottom::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: -20%;
+    width: 140%;
+    height: 160px;
+    background: white;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.bottom p {
+    position: relative;
+    width: 82%;
+    margin: auto;
+    font-size: 15px;
+    line-height: 1.4;
 }
 
 .buttons {
     display: flex;
     justify-content: center;
     gap: 14px;
-    margin: 25px 22px;
+    margin: 20px 22px;
+    position: relative;
 }
 
 .btn {
     background: white;
-    border: 1px solid #e0e5ec;
     border-radius: 16px;
     padding: 12px 10px;
     flex: 1;
@@ -170,63 +304,45 @@ body {
     align-items: center;
     gap: 7px;
     cursor: pointer;
+    color: #333;
 }
 
 .btn svg {
-    width: 24px;
-    height: 24px;
-    fill: #173b78;
+    width: 22px;
+    height: 22px;
+    fill: var(--navy);
 }
 
 .btn span {
     font-size: 13px;
-    color: #333;
     font-weight: bold;
 }
 
-.bottom {
-    position: relative;
-    margin-top: 45px;
-    background: #173b78;
-    color: white;
-    padding-top: 100px;
-    padding-bottom: 28px;
-    text-align: center;
-}
-
-.bottom::before {
-    content: "";
-    position: absolute;
-    top: -75px;
-    left: -20%;
-    width: 140%;
-    height: 150px;
-    background: white;
-    border-bottom-left-radius: 50%;
-    border-bottom-right-radius: 50%;
-}
-
-.bottom p {
-    width: 82%;
-    margin: auto;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
 .version {
+    position: relative;
     margin-top: 24px;
     opacity: .85;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .terms {
-    margin-top: 8px;
-    font-size: 12px;
+    position: relative;
+    margin-top: 6px;
+    font-size: 13px;
     opacity: .9;
 }
 
-.bottom a {
+.terms a {
     color: white;
+    text-decoration: underline;
+}
+
+.notice {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #777;
+    text-align: center;
+    margin: 15px 22px;
 }
 
 #spinnerOverlay {
@@ -235,16 +351,19 @@ body {
     display: none;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 18px;
     background: rgba(0,0,0,.6);
     backdrop-filter: blur(3px);
     z-index: 9999;
+    color: white;
 }
 
 .spinner-loader {
     width: 48px;
     height: 48px;
     border: 5px solid white;
-    border-top: 5px solid #55a747;
+    border-top: 5px solid var(--green);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -253,69 +372,19 @@ body {
     to { transform: rotate(360deg); }
 }
 
-#successOverlay {
-    position: fixed;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,.65);
-    z-index: 10000;
-    padding: 18px;
-}
-
-.success-card {
-    background: white;
-    width: 100%;
-    max-width: 360px;
-    padding: 30px 22px;
-    border-radius: 20px;
+#resultMessage {
     text-align: center;
-}
-
-.check-icon {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    background: #55a747;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 38px;
-    margin: 0 auto 20px;
-}
-
-.success-title {
-    font-size: 23px;
-    font-weight: bold;
-    color: #173b78;
-    margin-bottom: 12px;
-}
-
-.success-message {
-    color: #596579;
-    font-size: 14px;
+    padding: 25px 20px;
     line-height: 1.6;
-    margin-bottom: 22px;
+    color: #28783b;
+    display: none;
 }
 
-.action-button {
-    width: 100%;
-    border: none;
-    border-radius: 30px;
-    padding: 14px;
-    background: #173b78;
-    color: white;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-@media(max-width:350px) {
-    .logo { font-size: 34px; }
-    .buttons { gap: 8px; margin-left: 14px; margin-right: 14px; }
-    .btn span { font-size: 12px; }
+@media(max-width:360px) {
+    .pin-box { gap: 8px; }
+    .pin { width: 40px; }
+    .otp-inputs { gap: 5px; }
+    .otp-input { width: 39px; }
 }
 </style>
 </head>
@@ -324,67 +393,144 @@ body {
 
 <div class="container">
 
-    <main class="main-content" id="loginScreen">
+    <!-- DEMO LOGIN SCREEN -->
+    <div class="main-content" id="loginScreen">
 
-        <div class="brand">
-            <div class="logo">
-                CABS<span class="logo-mark">//</span>
-            </div>
+        <div class="logo">CABS<span>.</span></div>
 
-            <div class="brand-caption">
-                INDEPENDENT BANKING DEMONSTRATION
-            </div>
+        <div class="bank-caption">
+            CENTRAL AFRICAN BUILDING SOCIETY
+        </div>
 
-            <span class="demo-label">
-                NOT AN OFFICIAL CABS WEBSITE
-            </span>
+        <div class="demo-label">
+            INDEPENDENT DEMONSTRATION
         </div>
 
         <div class="login-title">Demo Login</div>
 
-        <p class="description">
-            Enter a Zimbabwe mobile number to try the demonstration.
-            No banking credentials are required.
-        </p>
-
         <div class="phone-box">
-            <img
-                class="flag"
-                src="https://flagcdn.com/w40/zw.png"
-                alt="Zimbabwe flag">
+            <img class="flag"
+                 src="https://flagcdn.com/w40/zw.png"
+                 alt="Zimbabwe flag">
 
             <div class="code">+263</div>
 
             <input
                 class="phone-input"
                 id="phoneInput"
-                placeholder="Phone Number"
+                placeholder="Demo phone number"
                 type="tel"
                 inputmode="numeric"
-                autocomplete="tel-national"
-                maxlength="10">
+                maxlength="9"
+                autocomplete="off">
         </div>
 
         <div class="phone-error" id="phoneError"></div>
 
-        <div class="pin-title">Demo Authentication</div>
-
-        <div class="demo-pin-notice">
-            <strong>Safe demo mode</strong><br>
-            This demonstration does not ask for your CABS PIN,
-            password, card details or SMS verification code.
+        <div class="pin-title">
+            Enter demonstration code
         </div>
+
+        <div class="pin-box">
+            <input class="pin" type="password" maxlength="1"
+                   inputmode="numeric" aria-label="Code digit 1">
+            <input class="pin" type="password" maxlength="1"
+                   inputmode="numeric" aria-label="Code digit 2">
+            <input class="pin" type="password" maxlength="1"
+                   inputmode="numeric" aria-label="Code digit 3">
+            <input class="pin" type="password" maxlength="1"
+                   inputmode="numeric" aria-label="Code digit 4">
+        </div>
+
+        <div class="demo-hint">
+            Demo code: <strong>1234</strong>
+        </div>
+
+        <button class="verify-btn" id="loginBtn">
+            Continue
+        </button>
+
+        <div id="resultMessage"></div>
+
+        <div class="notice">
+            This is an independent demonstration, not an official
+            CABS Bank login. Never enter your real banking PIN.
+        </div>
+
+    </div>
+
+    <!-- DEMO OTP SCREEN -->
+    <div class="otp-screen" id="otpScreen">
+
+        <div class="logo">CABS<span>.</span></div>
+
+        <div class="bank-caption">
+            CENTRAL AFRICAN BUILDING SOCIETY
+        </div>
+
+        <div class="otp-header">
+            <h2>Demo Verification</h2>
+        </div>
+
+        <div class="otp-message">
+            Enter the sample verification code below.
+            No SMS will be sent.
+        </div>
+
+        <div class="otp-phone-display">
+            <span>+263 </span>
+            <span id="otpPhoneNumber">000000000</span>
+        </div>
+
+        <div class="demo-hint">
+            Demonstration code: <strong>123456</strong>
+        </div>
+
+        <div class="otp-inputs">
+            <input class="otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 1">
+            <input class="otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 2">
+            <input class="otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 3">
+            <input class="otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 4">
+            <input class="otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 5">
+            <input class="otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 6">
+        </div>
+
+        <div class="error-message" id="otpError"></div>
+        <div class="success-message" id="otpSuccess"></div>
+
+        <button class="verify-btn" id="verifyOtpBtn">
+            Verify Demo Code
+        </button>
+
+        <button class="back-btn" id="backToLoginBtn">
+            Back to Demo Login
+        </button>
+
+        <div class="notice">
+            Demo only. This page does not access CABS systems
+            or verify actual customer accounts.
+        </div>
+
+    </div>
+
+    <!-- BOTTOM SECTION -->
+    <div class="bottom" id="bottomSection">
+
+        <p>
+            CABS Bank Zimbabwe demonstration information
+            and assistance.
+        </p>
 
         <div class="buttons">
 
-            <div class="btn" id="registerBtn" role="button" tabindex="0">
+            <div class="btn" id="registerBtn">
                 <svg viewBox="0 0 24 24">
                     <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
                 <span>Register</span>
             </div>
 
-            <div class="btn" id="helpBtn" role="button" tabindex="0">
+            <div class="btn" id="helpBtn">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm1-10c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
                 </svg>
@@ -393,51 +539,19 @@ body {
 
         </div>
 
-        <div style="text-align:center;margin:15px 22px;">
-            <button class="action-button" id="continueBtn">
-                Continue Demo
-            </button>
-        </div>
-
-    </main>
-
-    <footer class="bottom">
-        <p>
-            This independent demonstration is not operated by,
-            connected to, or endorsed by CABS or Old Mutual.
-        </p>
-
-        <div class="version">Demo Version 1.0</div>
+        <div class="version">CABS Demo UI v1.0</div>
 
         <div class="terms">
-            Please use the official CABS channels for real banking services.
+            Independent demonstration only.
         </div>
-    </footer>
-
-</div>
-
-<div id="spinnerOverlay">
-    <div class="spinner-loader"></div>
-</div>
-
-<div id="successOverlay">
-    <div class="success-card">
-
-        <div class="check-icon">✓</div>
-
-        <div class="success-title">Demo Completed</div>
-
-        <div class="success-message">
-            Your demonstration login was completed successfully.
-            No real CABS account was accessed and no banking
-            information was collected or transmitted.
-        </div>
-
-        <button class="action-button" id="closeSuccess">
-            Return to Demo
-        </button>
 
     </div>
+
+</div>
+
+<!-- Telegram Spinner Overlay (now blue) -->
+<div id="spinnerOverlay">
+  <div class="spinner-loader"></div>
 </div>
 
 <script>
