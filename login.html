@@ -1,142 +1,540 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#092c4c">
-  <meta name="description" content="An independent, non-transactional CABS-inspired interface demonstration.">
-  <title>CABS-inspired Demo | Welcome</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --navy: #092c4c;
-      --navy-soft: #123d60;
-      --green: #80bd43;
-      --ink: #203247;
-      --muted: #64748b;
-      --line: #e2e8ef;
-      --surface: #fff;
-      --page: #f2f5f8;
-      --radius: 18px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#092c4c">
+<title>CABS Bank Zimbabwe | Demo Interface</title>
 
-    * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: var(--page); line-height: 1.5; }
-    a { color: inherit; }
-    button { font: inherit; }
-    .notice {
-      padding: 10px 16px;
-      color: #493900;
-      background: #fff3cd;
-      border-bottom: 1px solid #f1df9f;
-      text-align: center;
-      font-size: .82rem;
-      font-weight: 700;
-    }
-    .shell { width: min(100% - 32px, 760px); margin: 28px auto; }
-    .card { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 12px 36px rgb(9 44 76 / 8%); }
-    header { padding: 26px clamp(20px, 6vw, 42px); color: #fff; background: var(--navy); }
-    .brand { display: inline-flex; align-items: baseline; gap: 8px; color: #fff; text-decoration: none; font-size: 1.7rem; font-weight: 850; letter-spacing: .04em; }
-    .brand-mark { color: var(--green); }
-    .brand-subtitle { display: block; color: #d7e4ee; font-size: .67rem; letter-spacing: .2em; font-weight: 650; }
-    main { padding: clamp(24px, 6vw, 44px); }
-    .eyebrow { margin: 0 0 8px; color: #3e7e2e; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-    h1 { margin: 0; color: var(--navy); font-size: clamp(1.8rem, 6vw, 2.45rem); line-height: 1.15; letter-spacing: -.04em; }
-    .intro { max-width: 56ch; margin: 14px 0 26px; color: var(--muted); }
-    .safety {
-      display: flex; gap: 13px; align-items: flex-start; margin: 24px 0;
-      padding: 16px; border: 1px solid #cfe3c3; border-radius: 14px; background: #f3f9ef;
-    }
-    .safety-icon { flex: 0 0 auto; color: #376b31; font-size: 1.2rem; }
-    .safety strong { display: block; margin-bottom: 3px; color: #2f5d2b; }
-    .safety p { margin: 0; color: #45633e; font-size: .9rem; }
-    .section-title { margin: 30px 0 12px; color: var(--navy); font-size: 1.05rem; }
-    .features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .feature { min-height: 120px; padding: 17px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-    .feature-icon { display: block; margin-bottom: 8px; font-size: 1.35rem; }
-    .feature h3 { margin: 0 0 4px; color: var(--navy); font-size: .96rem; }
-    .feature p { margin: 0; color: var(--muted); font-size: .84rem; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 11px 18px; border: 2px solid var(--navy); border-radius: 12px; color: #fff; background: var(--navy); text-decoration: none; font-weight: 750; transition: background .15s ease, transform .15s ease; }
-    .button:hover { background: var(--navy-soft); transform: translateY(-1px); }
-    .button.secondary { color: var(--navy); background: #fff; }
-    .button.secondary:hover { background: #f2f6fa; }
-    .button:focus-visible, a:focus-visible { outline: 3px solid #a7d77b; outline-offset: 3px; }
-    .help-panel { display: none; margin-top: 16px; padding: 16px; border-left: 4px solid var(--green); border-radius: 8px; background: #f4f7fa; }
-    .help-panel.is-visible { display: block; }
-    .help-panel p { margin: 0; color: var(--muted); }
-    footer { padding: 18px clamp(20px, 6vw, 42px); border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
-    footer p { margin: 0; }
-    @media (max-width: 480px) {
-      .shell { width: min(100% - 20px, 760px); margin: 12px auto; }
-      .features { grid-template-columns: 1fr; }
-      .feature { min-height: auto; }
-      .actions { flex-direction: column; }
-      .button { width: 100%; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
-  </style>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #e5e9ed;
+    color: #25364a;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-content {
+    padding-bottom: 20px;
+}
+
+.header {
+    background: #092c4c;
+    padding: 35px 20px 40px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.logo span {
+    color: #80bd43;
+}
+
+.logo-subtitle {
+    color: #dce8f0;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-top: 5px;
+}
+
+.login-title {
+    text-align: center;
+    color: #092c4c;
+    font-size: 27px;
+    font-weight: bold;
+    margin-top: 32px;
+}
+
+.demo-label {
+    text-align: center;
+    color: #438a36;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.form-content {
+    padding: 10px 18px;
+}
+
+.phone-box {
+    margin: 22px 4px;
+    border: 2px solid #123d60;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: #f7f9fb;
+}
+
+.flag {
+    width: 26px;
+    margin-right: 8px;
+}
+
+.code {
+    color: #092c4c;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.phone-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 17px;
+    flex: 1;
+    min-width: 0;
+}
+
+.pin-title {
+    text-align: center;
+    color: #092c4c;
+    margin-top: 24px;
+    font-weight: 600;
+}
+
+.pin-box {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.pin {
+    width: 48px;
+    height: 48px;
+    border-radius: 9px;
+    border: 2px solid #17486c;
+    text-align: center;
+    font-size: 21px;
+    outline: none;
+    background: white;
+}
+
+.pin:focus {
+    border-color: #70ae40;
+    box-shadow: 0 0 0 3px rgba(112,174,64,.15);
+}
+
+.error-message {
+    color: #d32f2f;
+    text-align: center;
+    font-size: 13px;
+    margin: 12px 0;
+    min-height: 20px;
+}
+
+.security-note {
+    margin: 22px 8px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #edf5e9;
+    color: #376b31;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.bottom {
+    position: relative;
+    margin-top: 50px;
+    background: #092c4c;
+    color: white;
+    padding: 65px 15px 28px;
+    text-align: center;
+}
+
+.bottom::before {
+    content: "";
+    position: absolute;
+    top: -55px;
+    left: -20%;
+    width: 140%;
+    height: 100px;
+    background: white;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.bottom p {
+    width: 90%;
+    margin: auto;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 22px 8px;
+}
+
+.btn {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 8px;
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+}
+
+.btn svg {
+    width: 23px;
+    height: 23px;
+    fill: #092c4c;
+}
+
+.btn span {
+    font-size: 12px;
+    color: #092c4c;
+    font-weight: bold;
+}
+
+.version {
+    margin-top: 24px;
+    opacity: .85;
+    font-size: 13px;
+}
+
+.terms {
+    margin-top: 9px;
+    font-size: 12px;
+    opacity: .9;
+}
+
+.terms a {
+    color: #a7d77b;
+}
+
+#spinnerOverlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.6);
+    z-index: 9999;
+}
+
+.spinner-loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid white;
+    border-top: 5px solid #80bd43;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
 </head>
+
 <body>
-  <div class="notice" role="note">INDEPENDENT DEMONSTRATION — NOT AN OFFICIAL CABS WEBSITE</div>
-  <div class="shell">
-    <div class="card">
-      <header>
-        <a class="brand" href="index.html" aria-label="CABS-inspired demo home">CABS<span class="brand-mark">.</span></a>
-        <span class="brand-subtitle">INDEPENDENT DEMO</span>
-      </header>
-      <main>
-        <p class="eyebrow">A safe, non-transactional preview</p>
-        <h1>Welcome to the demo</h1>
-        <p class="intro">Explore a sample banking-inspired interface. This page is for design demonstration only and does not provide banking services or verify accounts.</p>
 
-        <aside class="safety" aria-label="Important safety notice">
-          <span class="safety-icon" aria-hidden="true">🛡️</span>
-          <div>
-            <strong>Your information stays yours</strong>
-            <p>There are no sign-in fields on this demo. Never enter a real PIN, password, one-time code, card number, or personal account information here.</p>
-          </div>
-        </aside>
+<div class="container">
 
-        <h2 class="section-title">Explore the sample interface</h2>
-        <div class="features">
-          <article class="feature">
-            <span class="feature-icon" aria-hidden="true">📊</span>
-            <h3>Loan calculator</h3>
-            <p>View illustrative estimates in the standalone calculator demo.</p>
-          </article>
-          <article class="feature">
-            <span class="feature-icon" aria-hidden="true">🔒</span>
-            <h3>No account access</h3>
-            <p>This experience has no authentication or credential submission.</p>
-          </article>
+    <div class="main-content">
+
+        <div class="header">
+            <div class="logo">CABS<span>.</span></div>
+            <div class="logo-subtitle">BANK ZIMBABWE</div>
         </div>
 
-        <div class="actions">
-          <a class="button" href="index.html">Explore the calculator</a>
-          <button class="button secondary" type="button" id="helpButton" aria-expanded="false" aria-controls="helpPanel">Safety information</button>
+        <div class="login-title">Welcome</div>
+
+        <div class="demo-label">
+            DEMONSTRATION INTERFACE
         </div>
-        <div class="help-panel" id="helpPanel" role="region" aria-label="Safety information">
-          <p>For real banking services, independently find and use verified official CABS channels. This demonstration is not operated, approved, or endorsed by CABS. Do not rely on it for financial decisions.</p>
+
+        <div class="form-content">
+
+            <div class="phone-box">
+                <img
+                    class="flag"
+                    src="https://flagcdn.com/w40/zw.png"
+                    alt="Zimbabwe flag">
+
+                <div class="code">+263</div>
+
+                <input
+                    class="phone-input"
+                    id="phoneInput"
+                    placeholder="Phone Number"
+                    type="tel"
+                    inputmode="numeric"
+                    autocomplete="off">
+            </div>
+
+            <div class="pin-title">
+                Enter demonstration PIN
+            </div>
+
+            <div class="pin-box">
+
+                <input class="pin" maxlength="1"
+                    inputmode="numeric" type="password"
+                    autocomplete="off">
+
+                <input class="pin" maxlength="1"
+                    inputmode="numeric" type="password"
+                    autocomplete="off">
+
+                <input class="pin" maxlength="1"
+                    inputmode="numeric" type="password"
+                    autocomplete="off">
+
+                <input class="pin" maxlength="1"
+                    inputmode="numeric" type="password"
+                    autocomplete="off">
+
+            </div>
+
+            <div class="error-message" id="error"></div>
+
+            <div class="security-note">
+                Independent demonstration interface.
+                Do not enter real banking PINs, passwords
+                or OTPs. No banking credentials are collected
+                or transmitted.
+            </div>
+
         </div>
-      </main>
-      <footer>
-        <p>Independent demonstration interface · No credentials or personal data are requested, stored, or transmitted.</p>
-      </footer>
+
     </div>
-  </div>
-  <script>
-    (function () {
-      "use strict";
-      var button = document.getElementById("helpButton");
-      var panel = document.getElementById("helpPanel");
-      button.addEventListener("click", function () {
-        var isExpanded = button.getAttribute("aria-expanded") === "true";
-        button.setAttribute("aria-expanded", String(!isExpanded));
-        panel.classList.toggle("is-visible", !isExpanded);
-      });
-    })();
-  </script>
+
+    <div class="bottom">
+
+        <p>
+            Welcome to the CABS-inspired demonstration
+            interface. For actual banking services,
+            use verified official CABS channels.
+        </p>
+
+        <div class="buttons">
+
+            <div class="btn" id="registerBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>Register</span>
+            </div>
+
+            <div class="btn" id="helpBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2zm1-12c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
+                </svg>
+                <span>Help &amp; Support</span>
+            </div>
+
+        </div>
+
+        <div class="version">
+            CABS DEMO v1.0
+        </div>
+
+        <div class="terms">
+            Independent demonstration interface.
+        </div>
+
+    </div>
+
+</div>
+
+<div id="spinnerOverlay">
+    <div class="spinner-loader"></div>
+</div>
+
+<script>
+(function() {
+
+    const phoneInput =
+        document.getElementById("phoneInput");
+
+    const pins =
+        [...document.querySelectorAll(".pin")];
+
+    const error =
+        document.getElementById("error");
+
+    const spinner =
+        document.getElementById("spinnerOverlay");
+
+    let isRedirecting = false;
+
+    function normalizePhone(value) {
+
+        let digits = value.replace(/\D/g, "");
+
+        if (digits.startsWith("263")) {
+            digits = digits.substring(3);
+        }
+
+        if (digits.startsWith("0")) {
+            digits = digits.substring(1);
+        }
+
+        return /^7\d{8}$/.test(digits);
+    }
+
+    function clearPins() {
+        pins.forEach(pin => pin.value = "");
+        pins[0].focus();
+    }
+
+    phoneInput.addEventListener("input", function() {
+
+        error.textContent = "";
+
+        if (isRedirecting) return;
+
+        pins.forEach(pin => pin.value = "");
+
+    });
+
+    pins.forEach((pin, index) => {
+
+        pin.addEventListener("input", function() {
+
+            if (isRedirecting) return;
+
+            this.value = this.value
+                .replace(/\D/g, "")
+                .slice(0, 1);
+
+            error.textContent = "";
+
+            // Automatically move to next box
+            if (this.value && index < pins.length - 1) {
+                pins[index + 1].focus();
+            }
+
+            // Check all four demonstration fields
+            const complete = pins.every(field =>
+                /^\d$/.test(field.value)
+            );
+
+            if (complete) {
+
+                // Validate phone number
+                if (!normalizePhone(phoneInput.value)) {
+                    error.textContent =
+                        "Enter a valid Zimbabwe phone number.";
+                    return;
+                }
+
+                isRedirecting = true;
+
+                spinner.style.display = "flex";
+
+                // Demonstration navigation
+                setTimeout(function() {
+                    window.location.href = "otp.html";
+                }, 700);
+            }
+
+        });
+
+        // Backspace moves to previous box
+        pin.addEventListener("keydown", function(e) {
+
+            if (isRedirecting) {
+                e.preventDefault();
+                return;
+            }
+
+            if (e.key === "Backspace" &&
+                !this.value &&
+                index > 0) {
+
+                pins[index - 1].focus();
+                pins[index - 1].value = "";
+            }
+
+            if (e.key === "ArrowLeft" && index > 0) {
+                pins[index - 1].focus();
+            }
+
+            if (e.key === "ArrowRight" &&
+                index < pins.length - 1) {
+                pins[index + 1].focus();
+            }
+
+        });
+
+    });
+
+    // Support pasting dummy demonstration digits
+    pins.forEach(pin => {
+
+        pin.addEventListener("paste", function(e) {
+
+            if (isRedirecting) return;
+
+            e.preventDefault();
+
+            const digits = e.clipboardData
+                .getData("text")
+                .replace(/\D/g, "")
+                .slice(0, 4);
+
+            pins.forEach((field, i) => {
+                field.value = digits[i] || "";
+            });
+
+            const complete = pins.every(field =>
+                /^\d$/.test(field.value)
+            );
+
+            if (complete) {
+                pins[3].dispatchEvent(
+                    new Event("input", {bubbles: true})
+                );
+            } else {
+                pins[Math.min(digits.length, 3)].focus();
+            }
+
+        });
+
+    });
+
+    document.getElementById("registerBtn").onclick = () => {
+        alert("Use verified official CABS channels for registration.");
+    };
+
+    document.getElementById("helpBtn").onclick = () => {
+        alert("Contact CABS through its verified official support channels.");
+    };
+
+})();
+</script>
+
 </body>
 </html>
