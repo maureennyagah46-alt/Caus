@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CABS Bank Zimbabwe | Personal Details – Demo</title>
+    <meta name="theme-color" content="#173b78">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e9edf3;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+        }
+
+        header {
+            width: 100%;
+            max-width: 480px;
+            padding: 16px;
+            margin: 0 auto 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+            position: relative;
+            text-align: center;
+        }
+
+        .back-btn {
+            font-size: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #173b78;
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .logo {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            color: #173b78;
+        }
+
+        .logo-mark {
+            color: #55a747;
+            font-size: 34px;
+            font-weight: 800;
+            font-style: italic;
+        }
+
+        .brand-caption {
+            font-size: 9px;
+            color: #687386;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .demo-label {
+            display: inline-block;
+            margin-top: 9px;
+            font-size: 10px;
+            color: #715b19;
+            background: #fff5d6;
+            border: 1px solid #ecd99a;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        main {
+            flex: 1;
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px 18px 32px;
+            box-shadow: 0 12px 48px rgba(0,0,0,.08);
+            position: relative;
+        }
+
+        .error-box {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            background: white;
+            border: 2px solid #d52b36;
+            border-radius: 14px;
+            padding: 12px;
+            display: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,.12);
+            z-index: 100;
+        }
+
+        .error-title {
+            color: #d52b36;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .error-text {
+            color: #444;
+            font-size: 13px;
+        }
+
+        .close {
+            position: absolute;
+            right: 12px;
+            top: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+        }
+
+        .form-title {
+            font-size: clamp(24px, 6vw, 32px);
+            font-weight: 700;
+            color: #173b78;
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 1rem auto .8rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 66.66%;
+            height: 100%;
+            background: linear-gradient(90deg, #173b78, #55a747);
+            border-radius: 4px;
+        }
+
+        .step-text {
+            text-align: center;
+            color: #6c757d;
+            font-size: .9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #253957;
+            margin-bottom: .5rem;
+            font-size: .9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: .9rem 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #fdfdfe;
+            transition: all .2s;
+        }
+
+        .form-input:focus {
+            border-color: #173b78;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(23,59,120,.15);
+        }
+
+        .form-input.invalid,
+        #phoneGroup.invalid {
+            border-color: #d52b36 !important;
+            box-shadow: 0 0 0 3px rgba(213,43,54,.15) !important;
+        }
+
+        .name-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .name-group > div {
+            flex: 1;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .prev-btn, .next-btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            touch-action: manipulation;
+        }
+
+        .prev-btn {
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+        }
+
+        .next-btn {
+            background: linear-gradient(90deg,#173b78,#102d60);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 18px rgba(23,59,120,.25);
+        }
+
+        .next-btn:active, .prev-btn:active {
+            transform: scale(.97);
+        }
+
+        .next-btn:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+        }
+
+        footer {
+            padding: 20px 16px;
+            color: #788496;
+            font-size: 12px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        #spinner {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,.6);
+            backdrop-filter: blur(3px);
+            z-index: 999;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid white;
+            border-top: 5px solid #55a747;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #phoneGroup {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 0 1rem;
+            background: #fdfdfe;
+        }
+
+        #phoneGroup span {
+            color: #173b78;
+            font-weight: 600;
+            margin-right: .5rem;
+        }
+
+        #phoneGroup input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: .9rem 0;
+            font-size: 1rem;
+            background: transparent;
+        }
+
+        @media(max-width:380px) {
+            body { padding: 8px; }
+            .form-card { padding: 20px 14px; }
+            .name-group {
+                gap: .8rem;
+                flex-direction: column;
+                margin-bottom: .8rem;
+            }
+            .btn-group { gap: .8rem; }
+            .prev-btn,.next-btn {
+                padding: .8rem;
+                font-size: .9rem;
+            }
+        }
+
+        @media(min-width:769px) {
+            body { padding: 32px; }
+            .form-card { padding: 2.5rem 3rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <button class="back-btn" onclick="history.back()">←</button>
+
+    <div class="brand">
+        <span class="logo">CABS</span>
+        <span class="logo-mark">//</span>
+    </div>
+
+    <p class="brand-caption">A Member of the Old Mutual Group</p>
+    <span class="demo-label">INDEPENDENT DEMO — NOT AN OFFICIAL BANK WEBSITE</span>
+</header>
+
+<main>
+    <div class="form-card">
+
+        <div class="error-box" id="errorBox">
+            <div class="close" onclick="hideError()">×</div>
+            <div class="error-title">Error</div>
+            <div class="error-text" id="errorText">
+                Please fix the highlighted fields.
+            </div>
+        </div>
+
+        <h1 class="form-title">Personal Details</h1>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+
+        <p class="step-text">Step 2 of 3</p>
+
+        <div class="name-group">
+            <div>
+                <label class="form-label" for="firstName">First Name</label>
+                <input type="text" class="form-input"
+                    id="firstName" placeholder="First name">
+            </div>
+
+            <div>
+                <label class="form-label" for="lastName">Last Name</label>
+                <input type="text" class="form-input"
+                    id="lastName" placeholder="Last name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" class="form-input"
+                id="email" placeholder="name@example.com">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="loanPurpose">Loan Purpose</label>
+
+            <select id="loanPurpose" class="form-input" required>
+                <option value="" disabled selected>
+                    Select purpose for loan...
+                </option>
+                <option value="Personal & Family Expenses">Personal & Family Expenses</option>
+                <option value="Home Improvement & Construction">Home Improvement</option>
+                <option value="Business Expansion & Working Capital">Business</option>
+                <option value="Education & School / University Fees">Education Fees</option>
+                <option value="Vehicle & Asset Purchase">Vehicle & Asset Purchase</option>
+                <option value="Medical & Health Emergencies">Health Emergencies</option>
+                <option value="Agriculture & Farming Input">Agriculture</option>
+                <option value="Debt Consolidation">Debt Consolidation</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="phone">Phone Number</label>
+
+            <div id="phoneGroup">
+                <span>+263</span>
+                <input type="tel" id="phone"
+                    placeholder="77 123 4567"
+                    maxlength="10" inputmode="numeric">
+            </div>
+
+            <div style="font-size:12px;color:#6c757d;margin-top:4px;">
+                Enter 9 or 10 digits, e.g. 771234567.
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="prev-btn" onclick="history.back()">
+                PREVIOUS
+            </button>
+
+            <button class="next-btn" id="nextBtn">
+                NEXT STEP
+            </button>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    Independent demonstration project. Not affiliated with or endorsed by CABS or Old Mutual.
+</footer>
+
+<div id="spinner">
+    <div class="loader"></div>
+</div>
+
+<script>
+const firstNameInput = document.getElementById('firstName');
+const lastNameInput = document.getElementById('lastName');
+const emailInput = document.getElementById('email');
+const loanPurposeInput = document.getElementById('loanPurpose');
+const phoneInput = document.getElementById('phone');
+const phoneGroup = document.getElementById('phoneGroup');
+const nextBtn = document.getElementById('nextBtn');
+const spinner = document.getElementById('spinner');
+const errorBox = document.getElementById('errorBox');
+const errorText = document.getElementById('errorText');
+
+// Restore demo data
+['firstName','lastName','email','loanPurpose','phone'].forEach(key => {
+    const element = document.getElementById(key);
+    const value = localStorage.getItem('demo_' + key);
+    if (element && value) element.value = value;
+});
+
+function showError(message) {
+    errorText.innerText = message;
+    errorBox.style.display = 'block';
+}
+
+function hideError() {
+    errorBox.style.display = 'none';
+}
+
+function normalizeZimPhone(raw) {
+    let digits = raw.replace(/\D/g, '');
+
+    if (digits.startsWith('0') && digits.length === 10) {
+        digits = digits.substring(1);
+    }
+
+    if (digits.length === 9 && digits.startsWith('7')) {
+        return digits;
+    }
+
+    return null;
+}
+
+function validateForm() {
+    let valid = true;
+    let error = '';
+
+    document.querySelectorAll('.form-input, #phoneGroup')
+        .forEach(el => el.classList.remove('invalid'));
+
+    hideError();
+
+    const firstName = firstNameInput.value.trim();
+    const lastName = lastNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const purpose = loanPurposeInput.value;
+    const phone = normalizeZimPhone(phoneInput.value.trim());
+
+    if (firstName.length < 2) {
+        firstNameInput.classList.add('invalid');
+        valid = false;
+        error = 'Please enter a valid first name.';
+    }
+
+    if (lastName.length < 2) {
+        lastNameInput.classList.add('invalid');
+        valid = false;
+        if (!error) error = 'Please enter a valid last name.';
+    }
+
+    if (!purpose) {
+        loanPurposeInput.classList.add('invalid');
+        valid = false;
+        if (!error) error = 'Please select a loan purpose.';
+    }
+
+    if (!phone) {
+        phoneGroup.classList.add('invalid');
+        valid = false;
+        if (!error) error = 'Enter a valid Zimbabwe phone number.';
+    }
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailInput.classList.add('invalid');
+        valid = false;
+        if (!error) error = 'Please enter a valid email address.';
+    }
+
+    if (!valid) {
+        showError(error);
+        document.querySelector('.invalid')
+            ?.scrollIntoView({behavior:'smooth',block:'center'});
+        return false;
+    }
+
+    phoneInput.value = phone;
+    return true;
+}
+
+let isProcessing = false;
+
+function proceedToSummary() {
+    if (isProcessing || !validateForm()) return;
+
+    const data = {
+        firstName: firstNameInput.value.trim(),
+        lastName: lastNameInput.value.trim(),
+        email: emailInput.value.trim(),
+        loanPurpose: loanPurposeInput.value,
+        phone: phoneInput.value.trim()
+    };
+
+    Object.entries(data).forEach(([key, value]) => {
+        localStorage.setItem('demo_' + key, value);
+    });
+
+    isProcessing = true;
+    nextBtn.disabled = true;
+    spinner.style.display = 'flex';
+
+    setTimeout(() => {
+        window.location.href = 'summary.html';
+    }, 500);
+}
+
+nextBtn.addEventListener('click', proceedToSummary);
+
+[
+    firstNameInput,
+    lastNameInput,
+    emailInput,
+    loanPurposeInput,
+    phoneInput
+].forEach(element => {
+    element.addEventListener('input', () => {
+        element.classList.remove('invalid');
+        phoneGroup.classList.remove('invalid');
+        hideError();
+    });
+});
+
+window.hideError = hideError;
+</script>
+
+</body>
+</html>
