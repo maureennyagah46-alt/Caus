@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CABS Bank Zimbabwe | Demo Verification</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    --navy: #003b5c;
+    --navy-dark: #002a43;
+    --green: #70a83b;
+    --light: #f4f7f9;
+    --text: #263746;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e8eef2, #dce8ed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text);
+}
+
+.demo-page {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 35, 55, .15);
+}
+
+.header {
+    background: var(--navy);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 31px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #9acb63;
+}
+
+.bank-name {
+    margin-top: 5px;
+    font-size: 13px;
+    letter-spacing: 1.4px;
+}
+
+.content {
+    padding: 28px 23px;
+    text-align: center;
+}
+
+.demo-notice {
+    background: #fff8e5;
+    border: 1px solid #efd99b;
+    color: #725817;
+    padding: 11px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.lock-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #eaf2f7;
+    color: var(--navy);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 29px;
+    margin: 0 auto 17px;
+}
+
+h2 {
+    color: var(--navy);
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: #687784;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.code-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.code-inputs input {
+    width: 54px;
+    height: 58px;
+    border: 1.5px solid #cbd5dc;
+    border-radius: 9px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--navy);
+    outline: none;
+}
+
+.code-inputs input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(112,168,59,.12);
+}
+
+.demo-hint {
+    font-size: 12px;
+    color: #71808a;
+    margin-bottom: 20px;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: var(--navy);
+    color: white;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    background: var(--navy-dark);
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.message {
+    min-height: 22px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.message.success {
+    color: #28783b;
+}
+
+.message.error {
+    color: #c0392b;
+}
+
+.footer {
+    border-top: 1px solid #e9eef1;
+    padding: 17px;
+    text-align: center;
+    color: #87939b;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.footer strong {
+    color: var(--navy);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="demo-page">
+
+    <header class="header">
+        <div class="logo">CABS<span>.</span></div>
+        <div class="bank-name">CENTRAL AFRICAN BUILDING SOCIETY</div>
+    </header>
+
+    <main class="content">
+
+        <div class="demo-notice">
+            <strong>Independent demonstration only.</strong>
+            This page is not operated by or affiliated with CABS Bank.
+            Never enter your real banking PIN or password here.
+        </div>
+
+        <div class="lock-icon">🔐</div>
+
+        <h2>Demo Verification</h2>
+
+        <p class="description">
+            Enter the four-digit demonstration code below
+            to complete this sample verification.
+        </p>
+
+        <div class="code-inputs">
+            <input type="password" inputmode="numeric" maxlength="1"
+                   aria-label="Demo code digit 1">
+            <input type="password" inputmode="numeric" maxlength="1"
+                   aria-label="Demo code digit 2">
+            <input type="password" inputmode="numeric" maxlength="1"
+                   aria-label="Demo code digit 3">
+            <input type="password" inputmode="numeric" maxlength="1"
+                   aria-label="Demo code digit 4">
+        </div>
+
+        <p class="demo-hint">
+            Demonstration code: <strong>1234</strong>
+        </p>
+
+        <button id="verifyButton" type="button">
+            Verify Demo Code
+        </button>
+
+        <div class="message" id="message" aria-live="polite"></div>
+
+    </main>
+
+    <footer class="footer">
+        <strong>CABS Bank Zimbabwe</strong><br>
+        Independent UI demonstration — not an official banking service.
+    </footer>
+
+</div>
+
+<script>
+const inputs = [...document.querySelectorAll(".code-inputs input")];
+const verifyButton = document.getElementById("verifyButton");
+const message = document.getElementById("message");
+
+inputs.forEach((input, index) => {
+
+    input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D/g, "").slice(0, 1);
+
+        if (input.value && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+    });
+
+    input.addEventListener("keydown", event => {
+        if (event.key === "Backspace" && !input.value && index > 0) {
+            inputs[index - 1].focus();
+        }
+    });
+
+    input.addEventListener("paste", event => {
+        event.preventDefault();
+
+        const pasted = event.clipboardData
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, 4);
+
+        pasted.split("").forEach((digit, i) => {
+            if (inputs[i]) inputs[i].value = digit;
+        });
+
+        inputs[Math.min(pasted.length, 3)].focus();
+    });
+});
+
+verifyButton.addEventListener("click", () => {
+
+    const code = inputs.map(input => input.value).join("");
+
+    message.className = "message";
+
+    if (code.length !== 4) {
+        message.textContent = "Please enter all four demo digits.";
+        message.classList.add("error");
+        return;
+    }
+
+    if (code === "1234") {
+        message.textContent =
+            "Demo verification successful. No banking information was collected.";
+        message.classList.add("success");
+
+        verifyButton.disabled = true;
+        verifyButton.textContent = "Demo Completed";
+    } else {
+        message.textContent =
+            "Incorrect demo code. Please use the demonstration code shown above.";
+        message.classList.add("error");
+
+        inputs.forEach(input => input.value = "");
+        inputs[0].focus();
+    }
+});
+</script>
+
+</body>
+</html>
