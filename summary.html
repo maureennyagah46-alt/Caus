@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CABS-Inspired Loan Demo | Final Review</title>
+<meta name="theme-color" content="#173b78">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    min-height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #e9edf3;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+    max-width: 480px;
+    padding: 12px 16px;
+    text-align: center;
+    margin-bottom: 12px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    position: relative;
+}
+
+.back-btn {
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #173b78;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.logo {
+    font-size: clamp(28px, 7vw, 40px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #173b78;
+}
+
+.logo-mark {
+    color: #55a747;
+    font-size: 34px;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.brand-caption {
+    font-size: 9px;
+    color: #687386;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.demo-label {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    color: #715b19;
+    background: #fff5d6;
+    border: 1px solid #ecd99a;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 18px 32px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 12px 48px rgba(0,0,0,.08);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.top {
+    text-align: center;
+    flex: 1;
+}
+
+.form-title {
+    font-size: clamp(24px, 6vw, 32px);
+    font-weight: 700;
+    color: #173b78;
+    margin-bottom: 12px;
+}
+
+.progress-bar {
+    width: 140px;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    margin: 16px auto 12px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,#173b78,#55a747);
+}
+
+.step-text {
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #253957;
+    margin-bottom: 8px;
+    font-size: 14px;
+    display: block;
+    text-align: left;
+}
+
+.form-select, .form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    font-size: 15px;
+    margin-bottom: 4px;
+    background: #fdfdfe;
+    font-family: inherit;
+}
+
+.form-select:focus, .form-input:focus {
+    border-color: #173b78;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(23,59,120,.15);
+}
+
+.invalid {
+    border-color: #d52b36 !important;
+}
+
+.error-message {
+    color: #d52b36;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 4px 0 16px;
+    display: none;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.error-visible {
+    display: block;
+}
+
+.summary-box {
+    background: #f0f5fb;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 14px;
+    margin: 20px 0 24px;
+    border: 1px solid #d4e0ef;
+    text-align: left;
+}
+
+.summary-heading {
+    font-weight: 700;
+    color: #173b78;
+    margin-bottom: 15px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    color: #495057;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.summary-row:last-child {
+    margin-bottom: 0;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.global-feedback {
+    color: #6c757d;
+    font-size: 13px;
+    text-align: center;
+    margin: 12px 0 20px;
+    padding: 10px;
+    background: #f0f5fb;
+    border: 1px solid #d4e0ef;
+    border-radius: 12px;
+    display: none;
+}
+
+.btn-group {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.prev-btn, .submit-btn {
+    flex: 1;
+    padding: 14px 12px;
+    border: none;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.prev-btn {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.submit-btn {
+    background: linear-gradient(90deg,#173b78,#102d60);
+    color: white;
+    box-shadow: 0 6px 18px rgba(23,59,120,.25);
+}
+
+.prev-btn:active, .submit-btn:active {
+    transform: scale(.97);
+}
+
+footer {
+    padding: 16px 16px 20px;
+    color: #788496;
+    font-size: 12px;
+    text-align: center;
+}
+
+#spinnerOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(3px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid white;
+    border-top: 5px solid #55a747;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+#successOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    padding: 16px;
+}
+
+.success-card {
+    background: white;
+    border-radius: 28px;
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+
+.check-icon {
+    width: 72px;
+    height: 72px;
+    background: #55a747;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 24px;
+    font-size: 44px;
+    color: white;
+}
+
+.success-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #173b78;
+    margin-bottom: 12px;
+}
+
+.success-msg {
+    font-size: 15px;
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.go-back-btn {
+    width: 100%;
+    padding: 14px;
+    background: #173b78;
+    color: white;
+    border: none;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+@media(max-width:380px) {
+    body { padding: 8px; }
+    .card { padding: 20px 14px; }
+    .summary-box { padding: 14px; }
+    .summary-row { font-size: 13px; }
+    .btn-group { gap: 10px; }
+    .prev-btn, .submit-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+    .success-card { padding: 24px 18px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <button class="back-btn" onclick="history.back()">←</button>
+
+    <div class="brand">
+        <span class="logo">CABS</span>
+        <span class="logo-mark">//</span>
+    </div>
+
+    <p class="brand-caption">A Member of the Old Mutual Group</p>
+
+    <span class="demo-label">
+        INDEPENDENT DEMO — NOT AN OFFICIAL BANK WEBSITE
+    </span>
+</header>
+
+<main class="card">
+
+    <div class="top">
+
+        <h1 class="form-title">Final Review</h1>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+
+        <div class="step-text">Demo Review & Completion</div>
+
+        <label class="form-label" for="employmentStatus">
+            Employment Status
+        </label>
+
+        <select class="form-select" id="employmentStatus">
+            <option value="Employed">Employed</option>
+            <option value="Self-Employed">Self-Employed</option>
+            <option value="Unemployed">Unemployed</option>
+            <option value="Student">Student</option>
+        </select>
+
+        <label class="form-label" for="annualIncome">
+            Estimated Annual Income (USD)
+        </label>
+
+        <input type="number"
+            class="form-input"
+            id="annualIncome"
+            placeholder="e.g. 5000"
+            min="0"
+            inputmode="numeric">
+
+        <div class="error-message" id="errIncome">
+            Enter a valid income greater than zero.
+        </div>
+
+        <div class="summary-box" id="summaryBox">
+            <div class="summary-heading">Application Summary</div>
+            <div id="summaryContent"></div>
+        </div>
+
+        <div class="global-feedback" id="globalFeedback">
+            Please correct the highlighted field before continuing.
+        </div>
+
+    </div>
+
+    <div class="btn-group">
+        <button class="prev-btn" onclick="history.back()">
+            Previous Step
+        </button>
+
+        <button class="submit-btn" id="submitBtn">
+            Complete Demo
+        </button>
+    </div>
+
+</main>
+
+<footer>
+    Independent CABS-inspired demonstration.
+    Not affiliated with or endorsed by CABS or Old Mutual.
+</footer>
+
+<div id="spinnerOverlay">
+    <div class="spinner"></div>
+</div>
+
+<div id="successOverlay">
+    <div class="success-card">
+
+        <div class="check-icon">✓</div>
+
+        <div class="success-title">Demo Completed</div>
+
+        <div class="success-msg">
+            Your demonstration has been completed successfully.
+            No application has been sent to CABS, and no banking
+            account or identity verification has taken place.
+        </div>
+
+        <button class="go-back-btn" onclick="window.location.href='index.html'">
+            Return to Demo
+        </button>
+
+    </div>
+</div>
+
+<script>
+const summaryContent = document.getElementById('summaryContent');
+
+function getDemoValue(key, fallback = '') {
+    return localStorage.getItem('demo_' + key) ||
+           localStorage.getItem(key) ||
+           fallback;
+}
+
+const loanAmount = getDemoValue('loanAmount', '5000');
+const termDays = getDemoValue('loanTerm', '30');
+
+const firstName = getDemoValue('firstName', 'Not provided');
+const lastName = getDemoValue('lastName', '');
+const email = getDemoValue('email', 'Not provided');
+const phone = getDemoValue('phone', 'Not provided');
+const purpose = getDemoValue('loanPurpose', 'Not specified');
+const loanType = getDemoValue('loanType', 'Demo Loan');
+
+const amount = Number(loanAmount);
+const formattedAmount = Number.isFinite(amount)
+    ? amount.toLocaleString('en-US')
+    : '0';
+
+function addSummaryRow(label, value) {
+    const row = document.createElement('div');
+    row.className = 'summary-row';
+
+    const name = document.createElement('span');
+    name.textContent = label;
+
+    const result = document.createElement('span');
+    result.className = 'summary-value';
+    result.textContent = value;
+
+    row.append(name, result);
+    summaryContent.appendChild(row);
+}
+
+addSummaryRow('Loan Type:', loanType);
+addSummaryRow('Requested Amount:', '$' + formattedAmount);
+addSummaryRow('Loan Term:', termDays + ' days');
+addSummaryRow('Purpose:', purpose);
+addSummaryRow('Applicant:', firstName + ' ' + lastName);
+addSummaryRow('Email:', email);
+addSummaryRow('Mobile Number:', phone === 'Not provided'
+    ? phone
+    : '+263 ' + phone
+);
+
+const employment = document.getElementById('employmentStatus');
+const income = document.getElementById('annualIncome');
+
+const savedEmployment = getDemoValue('employmentStatus');
+const savedIncome = getDemoValue('annualIncome');
+
+if (savedEmployment) employment.value = savedEmployment;
+if (savedIncome) income.value = savedIncome;
+
+const submitBtn = document.getElementById('submitBtn');
+const spinnerOverlay = document.getElementById('spinnerOverlay');
+const successOverlay = document.getElementById('successOverlay');
+const errIncome = document.getElementById('errIncome');
+const globalFeedback = document.getElementById('globalFeedback');
+
+income.addEventListener('input', () => {
+    income.classList.remove('invalid');
+    errIncome.classList.remove('error-visible');
+    globalFeedback.style.display = 'none';
+});
+
+submitBtn.addEventListener('click', () => {
+
+    const value = Number(income.value.trim());
+
+    income.classList.remove('invalid');
+    errIncome.classList.remove('error-visible');
+    globalFeedback.style.display = 'none';
+
+    if (!income.value.trim() || !Number.isFinite(value) || value <= 0) {
+        income.classList.add('invalid');
+        errIncome.classList.add('error-visible');
+        globalFeedback.style.display = 'block';
+        income.focus();
+        return;
+    }
+
+    localStorage.setItem('demo_employmentStatus', employment.value);
+    localStorage.setItem('demo_annualIncome', income.value);
+
+    submitBtn.disabled = true;
+    spinnerOverlay.style.display = 'flex';
+
+    setTimeout(() => {
+        spinnerOverlay.style.display = 'none';
+        successOverlay.style.display = 'flex';
+    }, 1200);
+});
+</script>
+
+</body>
+</html>
